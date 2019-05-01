@@ -6,14 +6,10 @@ const express = require('express'),
     keys = require('./services/keys'),
     bodyParser = require('body-parser'),
     localStrategy = require('passport-local'),
-    methodOverride = require('method-override'),
-    passportLocalMongoose = require('passport-local-mongoose');
+    methodOverride = require('method-override');
 
 
 const app = express();
-
-//Routes
-let baseRoute = require('./routes/base');
 
 //DB
 const User = require('./db/models/userSchema');
@@ -22,8 +18,8 @@ const User = require('./db/models/userSchema');
 mongoose.connect(keys.database.uri, {
     useNewUrlParser: true,
     useCreateIndex: true
-},(err) => {
-    if(err) return console.log(err);
+}, (err) => {
+    if (err) return console.log(err);
     console.log('Connected to the DB');
 });
 
@@ -33,8 +29,8 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(express.static('public'));
 app.use(require('cookie-session')({
-    name: 'Dodd Group Session',
-    keys: keys.app.sessionKeys,
+    name: 'DoddGroupSession',
+    keys: [keys.app.sessionKeys],
     maxAge: keys.app.cookieAge
 }));
 app.use(flash());
@@ -52,6 +48,8 @@ passport.deserializeUser(User.deserializeUser());
 app.use((req, res, next) => {
     res.locals.fail = req.flash('fail');
     res.locals.success = req.flash('success');
+    res.locals.validation = {};
+    res.locals.title = '';
     if (!req.user) {
         res.locals.user = req.user;
         next();
@@ -66,13 +64,19 @@ app.use((req, res, next) => {
             }
         })
     }
-    res.locals.title = '';
 });
+
+//Routes
+let baseRoute = require('./routes/base'),
+    adminRoute = require('./routes/admin'),
+    helpRoutes = require('./routes/help');
 
 //Routing
 app.use('/', baseRoute);
+app.use('/admin', adminRoute);
+app.use('/help', helpRoutes);
 app.get('*', (req, res) => {
-    res.render('base/404');
+    res.render('base/404', {url: req.url});
 });
 
 // Listener

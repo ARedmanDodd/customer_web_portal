@@ -1,0 +1,68 @@
+body{
+    padding-top: 80px;
+    background-image: url('/assets/images/dod\ 05.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover; 
+    background-size: cover;
+}
+
+.navbar {
+    height: 60px;
+    width: 100%;
+}
+
+#dodd-alert-cards{
+    position: relative;
+}
+
+.jumbotron{
+    opacity: 0.95;
+    -webkit-box-shadow: 4px 6px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 4px 6px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 4px 6px 5px 0px rgba(0,0,0,0.75);
+}
+
+.dodd-logo img{
+    height: 30px;
+}
+
+nav img.dodd-logo{
+    display:block;
+    margin: 0px auto;
+    height: 30px;
+}
+
+#logo {
+    position: absolute;
+    left: 50%;
+    margin-left: -50px !important;  /* 50% of your logo width */
+    display: block;
+}
+
+.pad-20{
+    padding: 20px;
+}
+
+.jumbotron.j-404{
+    background-image: url('/assets/images/ElectricalServicesBG.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.mg-20{
+    margin: 20px;
+}
+
+.page-template{
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    -webkit-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.75);
+    padding: 30px;
+}

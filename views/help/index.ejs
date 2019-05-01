@@ -1,0 +1,32 @@
+<% include ../partials/header %>
+
+<div class="page-template h-100">
+    <h1 class="display 4">
+        FAQ's
+    </h1>
+    <p class="lead">
+        We hope that many of the questions below will help with your enquiry:
+    </p>
+    <hr class="my-4">
+    <div class="accordion" id="FAQAccordian">
+        <% faq.forEach(faq => { %>
+            <div class="card">
+                <div class="card-header" id="<%= faq.id %>_label">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                            data-target="#collapse_<%= faq.id %>" aria-expanded="false" aria-controls="collapse_<%= faq.id %>">
+                            <%= faq.question %>
+                        </button>
+                    </h2>
+                </div>
+                <div id="collapse_<%= faq.id %>" class="collapse" aria-labelledby="<%= faq.id %>_label" data-parent="#FAQAccordian">
+                    <div class="card-body">
+                        <%= faq.answer %>
+                    </div>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+</div>
+
+<% include ../partials/footer %>
