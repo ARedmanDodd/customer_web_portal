@@ -5,6 +5,7 @@ const express = require('express'),
     flash = require('connect-flash'),
     keys = require('./services/keys'),
     bodyParser = require('body-parser'),
+    sanitizer = require('express-sanitizer'),
     localStrategy = require('passport-local'),
     methodOverride = require('method-override');
 
@@ -34,6 +35,7 @@ app.use(require('cookie-session')({
     maxAge: keys.app.cookieAge
 }));
 app.use(flash());
+app.use(sanitizer());
 app.set('view engine', 'ejs');
 app.use(methodOverride('_method'));
 app.use(passport.initialize());

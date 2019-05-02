@@ -6,7 +6,7 @@ const keys = {
         "port": 80,
         "secret": '3RgLm0QDltplsztU',
         "sessionKeys": '033CPyM5yf',
-        "cookieAge": 60000,
+        "cookieAge": 1000 * 60 * 60 * 24 * 14,
         "host": 'localhost'
     },
     messages: {

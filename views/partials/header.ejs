@@ -24,7 +24,7 @@
     <div class="container h-100">
         <nav class="navbar navbar-expand-md fixed-top bg-light navbar-light">
             <a class="navbar-brand dodd-logo" href="/"><img src="/assets/images/DG_Logo.png"><img src="/assets/images/DG_RENEW_LOGO.jpg"></a>
-            <img class="dodd-logo" id="logo" src="/assets/images/DG.PNG">
+            <a href="/" id="logo"><img class="dodd-logo" id="logo" src="/assets/images/DG.PNG"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -40,6 +40,7 @@
                                 <div class="dropdown-menu" aria-labelledby="adminDropdown">
                                     <a class="dropdown-item" href="/admin/hrn">Add HRN</a>
                                     <a class="dropdown-item" href="/admin/faq/add">Add FAQ</a>
+                                    <a class="dropdown-item" href="/admin/guide/add">Add Self-Help</a>
                                 </div>
                             </li>    
                         <% } %>
@@ -87,13 +88,10 @@
                             </div>
                         </li>
                     <% } %>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/help">
                           Help
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="accountrDropdown">
-                            <a class="dropdown-item" href="/help">FAQ's</a>
-                        </div>
                     </li>
                 </ul>
             </div>
@@ -108,7 +106,7 @@
                 </div>
             <% } %>
             <% if(success && success.length > 0) { %>
-                <div class="alert alert-success" role="alert" id="fail-alert">
+                <div class="alert alert-success alert-dismissible fade show dodd-alert-floating" role="alert">
                     <%= success %>
                 </div>
             <% } %>

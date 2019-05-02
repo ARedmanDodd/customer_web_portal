@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 let faqSchema = new mongoose.Schema ({
     question: {type: String, required: true},
     answer: {type: String, required: true},
+    video: {type: String},
     postedBy: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'

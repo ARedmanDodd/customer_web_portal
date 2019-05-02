@@ -1,31 +1,112 @@
 <% include ../partials/header %>
 
 <div class="page-template h-100">
-    <h1 class="display 4">
-        FAQ's
-    </h1>
-    <p class="lead">
-        We hope that many of the questions below will help with your enquiry:
-    </p>
-    <hr class="my-4">
-    <div class="accordion" id="FAQAccordian">
-        <% faq.forEach(faq => { %>
-            <div class="card">
-                <div class="card-header" id="<%= faq.id %>_label">
-                    <h2 class="mb-0">
-                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
-                            data-target="#collapse_<%= faq.id %>" aria-expanded="false" aria-controls="collapse_<%= faq.id %>">
-                            <%= faq.question %>
-                        </button>
-                    </h2>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="faq-tab" data-toggle="tab" href="#faq" role="tab" aria-controls="faq"
+                aria-selected="true">FAQ's</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="help-tab" data-toggle="tab" href="#help" role="tab" aria-controls="help"
+                aria-selected="false">Self Help Guides</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+                aria-selected="false">Contact</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <!-- FAQ Tab -->
+
+        <!-- 
+            FAQ Checklist
+            - Upload Videos/Text/Documents
+            - Shortcut link for admins
+        -->
+
+        <div class="tab-pane fade show active pad-20" id="faq" role="tabpanel" aria-labelledby="faq-tab">
+            <h1 class="display 4">
+                FAQ's
+            </h1>
+            <p class="lead">
+                We hope that many of the questions below will help with your enquiry:
+            </p>
+            <hr class="my-4">
+            <div class="row justify-content-center">
+                <div class="col-md-7">
+                    <input class="form-control" onkeyup="searchBar()" id="faq-search" name="search" type="text">
                 </div>
-                <div id="collapse_<%= faq.id %>" class="collapse" aria-labelledby="<%= faq.id %>_label" data-parent="#FAQAccordian">
-                    <div class="card-body">
-                        <%= faq.answer %>
-                    </div>
+                <div class="col-1">
+                    <button class="btn btn-info">Search</button>
                 </div>
             </div>
-        <% }) %>
+            <div class="accordion pad-20" id="FAQAccordian">
+                <% faq.forEach(faq => { %>
+                <div class="card">
+                    <div class="card-header" id="<%= faq.id %>_label">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                data-target="#collapse_<%= faq.id %>" aria-expanded="false"
+                                aria-controls="collapse_<%= faq.id %>">
+                                <%= faq.question %>
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse_<%= faq.id %>" class="collapse" aria-labelledby="<%= faq.id %>_label"
+                        data-parent="#FAQAccordian">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <%- faq.answer %>
+                                </div>
+                                <!-- Video Player -->
+                                <% if(faq.video){ %>
+
+                                    <%= faq.video %>
+
+                                <% } %>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <% if(user){
+                                        if(user.isSuperUser){ %>
+                                            <hr class="my-4">
+                                            <a href="/admin/faq/edit/<%= faq.id %>" class="mg-20"><button class="btn btn-sm btn-info">Edit</button></a>
+                                        <% }
+                                    } %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+        </div>
+        <!-- Help Tab -->
+        <div class="tab-pane fade pad-20" id="help" role="tabpanel" aria-labelledby="help-tab">
+            <h1 class="display 4">
+                Self Help Guides
+            </h1>
+            <p class="lead">
+                These guides provide a step-by-step set of instructions to help you to resolve a variety of benign gas/electrical issues without the need for us to get involced.
+            </p>
+            <hr class="my-4">
+            <div class="row justify-content-center">
+                <div class="col-md-7">
+                    <input class="form-control" onkeyup="searchBar()" id="faq-search" name="search" type="text">
+                </div>
+                <div class="col-1">
+                    <button class="btn btn-info">Search</button>
+                </div>
+            </div>
+        </div>
+        <!-- Contact Tab -->
+        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
     </div>
 </div>
 

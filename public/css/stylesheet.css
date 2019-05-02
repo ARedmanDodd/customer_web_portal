@@ -38,6 +38,7 @@ nav img.dodd-logo{
 
 #logo {
     position: absolute;
+    top: 20%;
     left: 50%;
     margin-left: -50px !important;  /* 50% of your logo width */
     display: block;
