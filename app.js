@@ -7,6 +7,7 @@ const express = require('express'),
     bodyParser = require('body-parser'),
     sanitizer = require('express-sanitizer'),
     localStrategy = require('passport-local'),
+    http = require('https');
     methodOverride = require('method-override');
 
 

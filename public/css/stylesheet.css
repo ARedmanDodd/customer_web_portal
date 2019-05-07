@@ -59,6 +59,10 @@ nav img.dodd-logo{
     margin: 20px;
 }
 
+.mg-bt-20{
+    margin-bottom: 20px;
+}
+
 .page-template{
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 10px;
@@ -67,3 +71,7 @@ nav img.dodd-logo{
     box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.75);
     padding: 30px;
 }
+
+/* div.nicEdit-main{
+    width: 100%;
+} */

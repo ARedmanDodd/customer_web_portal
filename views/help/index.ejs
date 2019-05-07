@@ -1,6 +1,6 @@
 <% include ../partials/header %>
 
-<div class="page-template h-100">
+<div class="page-template">
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" id="faq-tab" data-toggle="tab" href="#faq" role="tab" aria-controls="faq"
@@ -16,15 +16,7 @@
         </li>
     </ul>
     <div class="tab-content" id="myTabContent">
-        <!-- FAQ Tab -->
-
-        <!-- 
-            FAQ Checklist
-            - Upload Videos/Text/Documents
-            - Shortcut link for admins
-        -->
-
-        <div class="tab-pane fade show active pad-20" id="faq" role="tabpanel" aria-labelledby="faq-tab">
+         <div class="tab-pane fade show active pad-20" id="faq" role="tabpanel" aria-labelledby="faq-tab">
             <h1 class="display 4">
                 FAQ's
             </h1>
@@ -59,16 +51,16 @@
                                 <div class="col-12">
                                     <%- faq.answer %>
                                 </div>
-                                <!-- Video Player -->
-                                <% if(faq.video){ %>
-
-                                    <%= faq.video %>
-
-                                <% } %>
                             </div>
                             <div class="row">
-                                <div class="col-12">
-
+                                <div class="col-12 justify-content-center">
+                                    <div class="col-12">
+                                        <!-- Video Player -->
+                                        <% if(faq.video){ %>
+                                        <iframe class="pad-20" width="560" height="315" src="<%= faq.video %>" frameborder="0"
+                                            allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                                        <% } %>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
@@ -98,11 +90,37 @@
             <hr class="my-4">
             <div class="row justify-content-center">
                 <div class="col-md-7">
-                    <input class="form-control" onkeyup="searchBar()" id="faq-search" name="search" type="text">
+                    <input class="form-control" id="help-search" name="help-search" type="text">
                 </div>
                 <div class="col-1">
                     <button class="btn btn-info">Search</button>
                 </div>
+            </div>
+            <div class="row pad-20">
+                <% files.forEach(file => { %>
+                    <div class="col-md-3 dodd-file">
+                        <div class="card shadow p-3 mb-5 bg-white rounded">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= file.metadata.title %></h5>
+                                <p class="card-text"><%= file.metadata.description %></p>
+                                <a href="/help/guide/download/<%= file.metadata.uuid %>" class="btn btn-sm btn-info">Download</a>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+            <div class="row pad-20">
+                <% selfHelp.forEach(help => { %>
+                    <div class="col-md-3 dodd-file">
+                        <div class="card shadow p-3 mb-5 bg-white rounded">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= help.title %></h5>
+                                <p class="card-text"><%= help.description %></p>
+                                <a href="/help/guide/pdf/generate/download/<%= help.id %>" class="btn btn-info btn-sm">Download</a>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
             </div>
         </div>
         <!-- Contact Tab -->
