@@ -11,6 +11,15 @@ const keys = {
     },
     messages: {
         "dbError": 'An error occured. Please try again.. If this continues, please contact support.'
+    },
+    sql: {
+        user: 'doddtelf\\administrator',
+        password: 'mercury',
+        server: '10.10.1.15',
+        database: 'vixen_live',
+        options: {
+            encrypt: true
+        }
     }
 }
 

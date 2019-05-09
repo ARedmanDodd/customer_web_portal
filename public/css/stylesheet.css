@@ -63,6 +63,10 @@ nav img.dodd-logo{
     margin-bottom: 20px;
 }
 
+.mg-bt-5{
+    margin-bottom: 5px;
+}
+
 .page-template{
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 10px;
@@ -72,6 +76,25 @@ nav img.dodd-logo{
     padding: 30px;
 }
 
-/* div.nicEdit-main{
-    width: 100%;
-} */
+.fas.fa-check{
+    color: green;
+}
+
+.fas.fa-times{
+    color: crimson;
+}
+
+a.dodd-link{
+    text-decoration: none;
+    color: inherit;
+}
+
+button.btn-link{
+    text-decoration: none;
+    color: inherit;
+}
+
+button.btn-link:hover{
+    text-decoration: none;
+    color: inherit;
+}

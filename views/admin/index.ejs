@@ -3,12 +3,244 @@
 <div class="row">
     <div class="col-12 mg-bt-20 page-template">
         <h3>
+            Client's
+        </h3>
+        <div class="row mg-bt-20">
+            <div class="col-12 mg-bt-20">
+                <div class="page-template">
+                    <h4>
+                        New client setup
+                    </h4>
+                    <hr>
+                    <form class="form" id="new-client-form" action="/test" method="POST">
+                        <div class="form-row">
+                            <div class="col-12">
+                                <div class="accordion pad-20" id="client-wizard">
+                                    <div class="card">
+                                        <div class="card-header" id="client_wizard_label">
+                                            <h2 class="mb-0">
+                                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_client-wizard"
+                                                    aria-expanded="false" aria-controls="collapse_client-wizard">
+                                                    Open Client Wizard
+                                                </button>
+                                            </h2>
+                                        </div>
+                                        <div id="collapse_client-wizard" class="collapse" aria-labelledby="client_wizard_label" data-parent="#client-wizard">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div id="wizard">
+                                                            <h3>Instructions</h3>
+                                                            <section>
+                                                                <p class="lead"><strong>Instructions:</strong></p>
+                                                                <hr>
+                                                            </section>
+                                                            <h3>Client Details</h3>
+                                                            <section>
+                                                                <p class="lead"><strong>Details:</strong></p>
+                                                                <hr>
+                                                                <div class="form-row">
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label class="form-label" for="cName">Client Name:</label>
+                                                                            <input class="form-control" required placeholder="eg: Dodd Group" type="text" name="cName" id="client[businessName]">
+                                                                            <small class="form-text text-muted">The Business name of the client being added.</small>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label class="form-lable" for="cLogo">Client Logo:</label>
+                                                                            <input class="form-control-file" type="file" name="cLogo" id="cLogo">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <hr class="my-4">
+                                                                <div class="form-row">
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label for="client-contact-name" class="form-label">Contact Name:</label>
+                                                                            <input type="text" class="form-control" name="client[contactName]" required id="client-contact-name" placeholder="John Smith">
+                                                                            <small class="form-text text-muted">Please provide the name of the person to contact in regards to the client page.</small>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label for="client-contact-email" class="form-label">Contact E-mail:</label>
+                                                                            <input class="form-control" type="email" required name="client[ContactEmail]" id="client-contact-email" placeholder="JohnSmith@client.co.uk">
+                                                                            <small class="fom-text text-muted">Please provide an email address for the person mentioned above.</small>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label for="client-contact-phone" class="form-label">Contact Phone:</label>
+                                                                            <input class="form-control" type="tel" id="client-contact-phone" name="client[ContactPhone]" required placeholder="+44">
+                                                                            <small class="form-text text-muted">Please provide a telephone number for the contact above.</small>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label class="form-label">Address:</label>
+                                                                            <input type="text" class="form-control" name="client[add1]" required placeholder="Address Line 1">
+                                                                            <input type="text" class="form-control" name="client[add2]" placeholder="Address Line 2">
+                                                                            <input type="text" class="form-control" name="client[addCity]" placeholder="City">
+                                                                            <select class="form-control" name="client[addCounty]" required>
+                                                                                    <% let county = [
+                                                                                                'Aberdeenshire',
+                                                                                                'Angus',
+                                                                                                'Antrim',
+                                                                                                'Argyll',
+                                                                                                'Armagh',
+                                                                                                'Avon',
+                                                                                                'Ayrshire',
+                                                                                                'Banffshire',
+                                                                                                'Bedfordshire',
+                                                                                                'Berkshire',
+                                                                                                'Berwickshire',
+                                                                                                'Buckinghamshire',
+                                                                                                'Bute',
+                                                                                                'Caithness',
+                                                                                                'Cambridgeshire',
+                                                                                                'Cheshire',
+                                                                                                'Clackmannanshire',
+                                                                                                'Cleveland',
+                                                                                                'Clwyd',
+                                                                                                'Cornwall',
+                                                                                                'Cumbria',
+                                                                                                'Derbyshire',
+                                                                                                'Devon',
+                                                                                                'Dorset',
+                                                                                                'Down',
+                                                                                                'Dumfriesshire',
+                                                                                                'Dunbartonshire',
+                                                                                                'Durham',
+                                                                                                'Dyfed',
+                                                                                                'East Lothian',
+                                                                                                'East Sussex',
+                                                                                                'Essex',
+                                                                                                'Fermanagh',
+                                                                                                'Fife',
+                                                                                                'Gloucestershire',
+                                                                                                'Gwent',
+                                                                                                'Gwynedd',
+                                                                                                'Hampshire',
+                                                                                                'Herefordshire',
+                                                                                                'Hertfordshire',
+                                                                                                'Inverness-shire',
+                                                                                                'Isle of Wight',
+                                                                                                'Kent',
+                                                                                                'Kincardineshire',
+                                                                                                'Kinross-shire',
+                                                                                                'Kirkcudbrightshire',
+                                                                                                'Lanarkshire',
+                                                                                                'Lancashire',
+                                                                                                'Leicestershire',
+                                                                                                'Lincolnshire',
+                                                                                                'London',
+                                                                                                'Londonderry',
+                                                                                                'Merseyside',
+                                                                                                'Middlesex',
+                                                                                                'Mid Glamorgan',
+                                                                                                'Midlothian',
+                                                                                                'Moray',
+                                                                                                'Nairnshire',
+                                                                                                'Norfolk',
+                                                                                                'Northamptonshire',
+                                                                                                'North Humberside',
+                                                                                                'Northumberland',
+                                                                                                'North Yorkshire',
+                                                                                                'Nottinghamshire',
+                                                                                                'Orkney',
+                                                                                                'Oxfordshire',
+                                                                                                'Peeblesshire',
+                                                                                                'Perthshire',
+                                                                                                'Powys',
+                                                                                                'Renfrewshire',
+                                                                                                'Ross-shire',
+                                                                                                'Roxburghshire',
+                                                                                                'Rutland',
+                                                                                                'Selkirkshire',
+                                                                                                'Shetland',
+                                                                                                'Shropshire',
+                                                                                                'Somerset',
+                                                                                                'South Glamorgan',
+                                                                                                'South Humberside',
+                                                                                                'South Yorkshire',
+                                                                                                'Staffordshire',
+                                                                                                'Stirlingshire',
+                                                                                                'Suffolk',
+                                                                                                'Surrey',
+                                                                                                'Sutherland',
+                                                                                                'Tyne and Wear',
+                                                                                                'Tyrone',
+                                                                                                'Warwickshire',
+                                                                                                'West Glamorgan',
+                                                                                                'West Lothian',
+                                                                                                'West Midlands',
+                                                                                                'West Sussex',
+                                                                                                'West Yorkshire',
+                                                                                                'Wigtownshire',
+                                                                                                'Wiltshire',
+                                                                                                'Worcestershire'
+                                                                                            ] %>
+                                                                                        <option selected disabled>County</option>
+                                                                                        <% county.forEach((county) => { %>
+                                                                                            <option>
+                                                                                                <%= county %>
+                                                                                            </option>
+                                                                                            <% }) %>
+                                                                                </select>
+                                                                            <input type="text" class="form-control" name="client[addPost]" placeholder="Post Code">
+                                                                            <small class="form-text text-muted">Please provide a postal address for the client</small>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </section>
+                                                            <h3>Appointments</h3>
+                                                            <section>
+                                                                <!-- <p class="lead"><strong>Appointments:</strong></p>
+                                                                <hr> -->
+                                                                <div id="appointSchedule">
+
+                                                                </div>
+                                                            </section>
+                                                            <h3>Root User</h3>
+                                                            <section>
+                                                                <p class="lead"><strong>Root User:</strong></p>
+                                                                <hr>
+                                                                <div class="form-row">
+                                                                    <div class="col-md-4">
+                                                                        <div class="form-group">
+                                                                            <label class="form-label" for="cRootUser">Default User</label>
+                                                                            <input class="form-control" id="cRootUser" name="client[rootUser]" type="text">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="-md-4">
+                                                                        <div class="form-group">
+                                                                            <label class="form-label" for="cRootPass">Password</label>
+                                                                            <input type="password" id="cRootPass" name="cRootPass" class="form-control">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+	                                                            <textarea id="cJson" hidden name="client[basicCal]"></textarea>
+                                                            </section>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 mg-bt-20 page-template">
+        <h3>
             Actions:
         </h3>
         <div class="row mg-bt-20">
             <div class="col-12 mg-bt-20">
                 <div class="page-template">
-                    <h4 class="mg-bt-20">
+                    <h4 id="faq-section" class="mg-bt-20">
                         FAQ's
                     </h4>
                     <div class="mg-20">
@@ -29,12 +261,26 @@
                         <tbody>
                             <% faq.forEach(faq => { %>
                                 <tr>
-                                    <th scope="row"><%= faq.question %></th>
-                                    <td><%- faq.answer %></td>
-                                    <td><% if(faq.video){ %> YES <% }else{ %> NO <% } %></td>
+                                    <th scope="row">
+                                        <button class="btn btn-s btn-link" data-toggle="modal" data-target="#faqAnswer<%= faq.id %>">
+                                            <%= faq.question %>
+                                        </button>
+                                    </th>
                                     <td>
-                                        <a class="btn btn-warning btn-sm" href="/admin/faq/edit/<%= faq.id %>">Edit</a>
-                                        <button class="btn btn-danger btn-sm" type="button" data-toggle="modal" data-target="#modal<%= faq.id %>">
+                                        <button class="btn btn-s btn-link" data-toggle="modal" data-target="#faqAnswer<%= faq.id %>">
+                                            <% if(faq.answer.length > 50){ %>
+                                                <%= faq.answer.substring(0,50) %>...
+                                            <% }else{ %>
+                                                <%= faq.answer %>
+                                            <% } %>
+                                        </button>
+                                    </td>
+                                    <td align="center"><% if(faq.video){ %> <span class="fas fa-check"></span> <% }else{ %> <span class="fas fa-times"></span> <% } %></td>
+                                    <td>
+                                        <button class="btn btn-warning btn-sm mg-bt-5" type="button" data-toggle="modal" data-target="#modal<%= faq.id %>edit">
+                                            Edit
+                                        </button>
+                                        <button class="btn btn-danger btn-sm mg-bt-5" type="button" data-toggle="modal" data-target="#modal<%= faq.id %>">
                                             Delete
                                         </button>
                                     </td>
@@ -46,7 +292,7 @@
             </div>
             <div class="col-12">
                 <div class="page-template">
-                    <h4 class="mg-bt-20">
+                    <h4 id="guides-section" class="mg-bt-20">
                         Guides
                     </h4>
                     <div class="mg-20">
@@ -59,19 +305,32 @@
                             <tr>
                                 <th scope="col">Title</th>
                                 <th scope="col">Description</th>
+                                <th scope="col">Enabled</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <% guide.forEach(guide => { %>
                                 <tr>
-                                    <th scope="row"><%= guide.title %></th>
-                                    <td><%- guide.description %></td>
+                                    <th scope="row"><a class="dodd-link" href="/help/guide/pdf/generate/download/<%= guide.id %>" download="/help/guide/pdf/generate/download/<%= guide.id %>"><%= guide.title %></a></th>
                                     <td>
-                                        <button class="btn btn-warning btn-sm" type="button" data-toggle="modal" data-target="#modaledit<%= guide.id %>">
+                                        <% if(guide.description.length > 50){ %>
+                                            <%= guide.description.substring(0,50) %>...
+                                        <% }else{ %>
+                                            <%= guide.description %>
+                                        <% } %>
+                                    </td>
+                                    <td align="center"><% if(guide.enabled){ %> <span class="fas fa-check"></span> <% }else{ %> <span class="fas fa-times"></span> <% } %></td>
+                                    <td>
+                                        <% if(guide.enabled){ %>
+                                            <a class="btn btn-info btn-sm mg-bt-5" href="/admin/guide/written/toggle/<%= guide.id %>">Disable</a>
+                                        <% } else { %>
+                                            <a class="btn btn-info btn-sm mg-bt-5" href="/admin/guide/written/toggle/<%= guide.id %>">Enable</a>
+                                        <% } %>
+                                        <button class="btn btn-warning btn-sm mg-bt-5" type="button" data-toggle="modal" data-target="#modaledit<%= guide.id %>">
                                             Edit
                                         </button>
-                                        <button class="btn btn-danger btn-sm" type="button" data-toggle="modal" data-target="#modal<%= guide.id %>">
+                                        <button class="btn btn-danger btn-sm mg-bt-5" type="button" data-toggle="modal" data-target="#modal<%= guide.id %>">
                                             Delete
                                         </button>
                                     </td>
@@ -79,13 +338,25 @@
                             <% })
                             <files.forEach(file => { %>
                                 <tr>
-                                    <th scope="row"><%= file.metadata.title %></th>
-                                    <td><% file.metadata.description %></td>
+                                    <th scope="row"><a class="dodd-link" href="/help/guide/download/<%= file.metadata.uuid %>" download="/help/guide/download/<%= file.metadata.uuid %>"><%= file.metadata.title %></a></th>
                                     <td>
-                                        <button class="btn btn-warning btn-sm" type="button" data-toggle="modal" data-target="#modaledit<%= file.metadata.uuid %>">
+                                            <% if(file.metadata.description.length > 50){ %>
+                                                <%= file.metadata.description.substring(0,50) %>...
+                                            <% }else{ %>
+                                                <%= file.metadata.description %>
+                                            <% } %>
+                                    </td>
+                                    <td align="center"><% if(file.metadata.enabled){ %> <span class="fas fa-check"></span> <% }else{ %> <span class="fas fa-times"></span> <% } %></td>
+                                    <td>
+                                        <% if(file.metadata.enabled){ %>
+                                            <a class="btn btn-info btn-sm mg-bt-5" href="/admin/guide/upload/toggle/<%= file.metadata.uuid %>">Disable</a>
+                                        <% } else { %>
+                                            <a class="btn btn-info btn-sm mg-bt-5" href="/admin/guide/upload/toggle/<%= file.metadata.uuid %>">Enable</a>
+                                        <% } %>
+                                        <button class="btn btn-warning btn-sm mg-bt-5" type="button" data-toggle="modal" data-target="#modal<%= file.filename.split('.').join("") %>">
                                             Edit
                                         </button>
-                                        <button class="btn btn-danger btn-sm" type="button" data-toggle="modal" data-target="#modal<%= file.metadata.uuid %>">
+                                        <button class="btn btn-danger btn-sm mg-bt-5" type="button" data-toggle="modal" data-target="#modal<%= file._id %>">
                                             Delete
                                         </button>
                                     </td>
@@ -96,27 +367,50 @@
                 </div>
             </div>
         </div>
-        <h3>
-            Quick Actions:
-        </h3>
-        <div class="row">
-            <div class="col-lg-4 col-md-6 mg-bt-20">
-                <div class="page-template">
-                    <h3>Add a new HRN Number:</h3>
-                    <hr>
-                    <form action="/admin/hrn/add" method="POST" class="form pad-20">
-                        <div class="row justify-content-md-center">
-                            <input type="text" class="form-control" placeholder="hrn number input" name="hrnNumber">
-                            <input type="text" class="form-control" placeholder="House Number" name="houseNumber">
-                            <input type="text" class="form-control" placeholder="Post Code" name="postCode">
-                            <button class="btn btn-info btn-sm mg-20">Submit</button>
-                        </div>
-                    </form>
+    </div>
+</div>
+<!-- FAQ Edit -->
+<% faq.forEach(faq => { %>
+    <div class="modal fade" id="modal<%= faq.id %>edit" tabindex="-1" role="dialog"
+        aria-labelledby="<%= faq.question %>ModalEdit" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="<%= faq.question %>ModalEdit">Edit FAQ:</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
+                <form action="/admin/faq/edit/<%= faq.id %>" method="POST" class="form pad-20">
+                    <div class="modal-body">
+                        <div class="row justify-content-md-center">
+                            <div class="col-12">
+                                <div class="form-group form-row">
+                                    <label for="faqQ" class="form-label">Question:</label>
+                                    <input type="text" class="form-control" value="<%= faq.question %>" name="faqQ" id="faqQ"
+                                        required>
+                                </div>
+                                <div class="form-group form-row">
+                                    <label class="form-label" for="ich-text">Answer:</label>
+                                    <textarea class="form-control" id="rich-text" name="faqA"><%= faq.answer %></textarea>
+                                </div>
+                                <div class="form-group form-row">
+                                    <label class="form-label" for="faqV">Video Link</label>
+                                    <input class="form-control" type="text" value="<%= faq.video %>" name="faqV" id="faqV">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-info">Submit</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-</div>
+<% }) %>
+<!-- FAQ delete confirmation modal -->
 <% faq.forEach(faq => { %>
     <div class="modal fade" id="modal<%= faq.id %>" tabindex="-1" role="dialog" aria-labelledby="<%= faq.question %>Modal"
         aria-hidden="true">
@@ -133,7 +427,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <a href="#">
+                    <a href="/admin/faq/delete/<%= faq.id %>">
                         <button type="button" class="btn btn-danger">Delete</button>
                     </a>
                 </div>
@@ -141,8 +435,9 @@
         </div>
     </div>
 <% })
+<!-- Written guide delete confirmation modal -->
 files.forEach(file => { %>
-    <div class="modal fade" id="modal<%= file.metadata.uuid %>" tabindex="-1" role="dialog" aria-labelledby="<%= file.metadata.title %>Modal"
+    <div class="modal fade" id="modal<%= file._id %>" tabindex="-1" role="dialog" aria-labelledby="<%= file.metadata.title %>Modal"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -157,7 +452,7 @@ files.forEach(file => { %>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <a href="#">
+                    <a href="/admin/guide/upload/delete/<%= file._id %>">
                         <button type="button" class="btn btn-danger">Delete</button>
                     </a>
                 </div>
@@ -165,6 +460,7 @@ files.forEach(file => { %>
         </div>
     </div>
 <% })
+<!-- Upload guide delete conrimation modal -->
 guide.forEach(guide => { %>
     <div class="modal fade" id="modal<%= guide.id %>" tabindex="-1" role="dialog" aria-labelledby="<%= guide.title %>Modal"
         aria-hidden="true">
@@ -181,7 +477,7 @@ guide.forEach(guide => { %>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <a href="#">
+                    <a href="/admin/guide/written/delete/<%= guide.id %>">
                         <button type="button" class="btn btn-danger">Delete</button>
                     </a>
                 </div>
@@ -189,6 +485,7 @@ guide.forEach(guide => { %>
         </div>
     </div>
 <% }) %>
+<!-- New FAQ modal -->
 <div class="modal fade" id="newFAQModal" tabindex="-1" role="dialog" aria-labelledby="newFAQModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -232,6 +529,7 @@ guide.forEach(guide => { %>
         </div>
     </div>
 </div>
+<!-- New guide modal -->
 <div class="modal fade" id="newGuideModal" tabindex="-1" role="dialog" aria-labelledby="newGuideModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
@@ -271,7 +569,7 @@ guide.forEach(guide => { %>
                                     <label class="form-label" for="rich-text">Write a new guide:</label><br>
                                 </div>
                                 <div>
-                                    <textarea class="form-control" id="summernote" name="guide"></textarea>
+                                    <textarea class="form-control summernote" name="guide"></textarea>
                                 </div>
                                 <div>
                                     <small class="form-text text-muted">You do not need to write a guide if you plan
@@ -295,13 +593,14 @@ guide.forEach(guide => { %>
         </div>
     </div>
 </div>
+<!-- Written guide edit modal -->
 <% guide.forEach(guide => { %>
-    <div class="modal fade" id="modaledit<%= guide.id %>" tabindex="-1" role="dialog" aria-labelledby="editGuideModalLabel"
+    <div class="modal fade" id="modaledit<%= guide.id %>" tabindex="-1" role="dialog" aria-labelledby="edit<%= guide.title %>GuideModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editGuideModalLabel">New Guide</h5>
+                    <h5 class="modal-title" id="edit<%= guide.title %>GuideModalLabel">Edit Guide</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -326,17 +625,13 @@ guide.forEach(guide => { %>
                                             required>
                                         <label class="form-check-label" for="fileUploadNo">Write Guide</label>
                                     </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="fileUploadEdit" value="true">
-                                        <label class="form-check-label" for="fileUploadYes">Upload Guide</label>
-                                    </div>
                                 </div>
-                                <div class="form-group form-row" id="writeGuideEdit">
+                                <div class="form-group form-row writeGuideEdit">
                                     <div class="col-12">
                                         <label class="form-label" for="rich-text">Write a new guide:</label><br>
                                     </div>
                                     <div>
-                                        <textarea class="form-control" id="summernote1" name="guide"><%- guide.guide %></textarea>
+                                        <textarea class="form-control summernote" name="guide"><%- guide.guide %></textarea>
                                     </div>
                                     <div>
                                         <small class="form-text text-muted">You do not need to write a guide if you plan
@@ -344,7 +639,52 @@ guide.forEach(guide => { %>
                                             uploading a pre-written one.</small>
                                     </div>
                                 </div>
-                                <div class="form-group form-row" id="uploadGuideEdit">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-info">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<% }) %>
+<!-- Uploaded guide edit modal -->
+<% files.forEach(file => { %>
+    <div class="modal fade" id="modal<%= file.filename.split('.').join("") %>" tabindex="-1" role="dialog"
+        aria-labelledby="modal<%= file.filename.split('.').join("") %>Label" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal<%= file.filename.split('.').join("") %>Label">Edit Guide</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/admin/guide/upload/edit/<%= file._id %>" method="POST" enctype="multipart/form-data"
+                    class="form pad-20">
+                    <div class="modal-body">
+                        <div class="row justify-content-md-center">
+                            <div class="col-12">
+                                <div class="form-group form-row">
+                                    <label for="gTitle" class="form-label">Title:</label>
+                                    <input type="text" class="form-control" placeholder="Guide Title.." name="gTitleEdit"
+                                        id="gTitle" value="<%= file.metadata.title %>" required>
+                                </div>
+                                <div class="form-group form-row">
+                                    <label for="gTitle" class="form-label">Description:</label>
+                                    <input type="text" class="form-control" placeholder="Brief description..."
+                                        name="fileDescriptionEdit" id="gTitle" value="<%= file.metadata.description %>" required>
+                                </div>
+                                <div class="form-group form-row">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" checked type="radio" name="fileUploadEditUpload" value="true">
+                                        <label class="form-check-label" for="fileUploadYes">Upload Guide</label>
+                                    </div>
+                                </div>
+                                <div class="form-group form-row uploadGuideEditUpload">
                                     <label class="form-label" for="guide-upload">Upload a Guide:</label>
                                     <input class="form-control-file" type="file" name="upload" id="guide-upload">
                                     <small class="form-text text-muted">Supoprted Files:<br>.pdf</small>
@@ -357,6 +697,29 @@ guide.forEach(guide => { %>
                         <button type="submit" class="btn btn-info">Submit</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+<% }) %>
+<!-- FAQ expanded answer modal -->
+<% faq.forEach(faq => { %>
+    <div class="modal" id="faqAnswer<%= faq.id %>" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%= faq.question %></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <p><%= faq.answer %></p>
+                    <% if(faq.video){ %>
+                        <iframe class="pad-20" width="100%" height="315" src="<%= faq.video %>" frameborder="0"
+                                allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    <% } %>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info btn-sm" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>

@@ -31,18 +31,13 @@ $(document).ready(() => {
             }
         }
     })
-})
+});
 
 // New guide form hide
 $(document).ready(() => {
     $('#writeGuide').hide();
     $('#uploadGuide').hide();
-})
-
-// Edit Write guide from hide
-$(document).ready(() => {
-    $('#uploadGuideEdit').hide();
-})
+});
 
 // new guide browser/upload
 $(document).ready(() => {
@@ -58,30 +53,9 @@ $(document).ready(() => {
     });
 });
 
-// edit guide browser/upload
+//Rich Text
 $(document).ready(() => {
-    $('input:radio[name=fileUploadEdit]').change(() => {
-        if ($("input[name='fileUploadEdit']:checked").val() == 'false') {
-            $('#writeGuideEdit').show();
-            $('#uploadGuideEdit').hide();
-        }
-        if ($("input[name='fileUploadEdit']:checked").val() == 'true') {
-            $('#writeGuideEdit').hide();
-            $('#uploadGuideEdit').show();
-        }
-    });
-});
-
-// Alert Card Fade
-$(document).ready(() => {
-    $('#success-alert').fadeTo(2000, 500).slideUp(500, () => {
-        $('#success-alert').slideUp(500);
-    })
-});
-
-// Rich Text
-$(document).ready(() => {
-    $('#summernote').summernote({
+    $('.summernote').summernote({
         tabsize: 2,
         height: 100,
         toolbar: [
@@ -94,32 +68,38 @@ $(document).ready(() => {
             ['height', ['height']],
             ['insert', ['link', 'table', 'hr']],
             ['misc', ['codeview', 'undo', 'redo', 'fullscreen']]
-          ]
+        ]
     });
 });
 
-// Rich Text 2
-$(document).ready(() => {
-    $('#summernote1').summernote({
-        tabsize: 2,
-        height: 100,
-        toolbar: [
-            // [groupName, [list of button]]
-            ['style', ['fontname', 'bold', 'italic', 'underline', 'clear']],
-            ['font', ['strikethrough', 'superscript', 'subscript']],
-            ['fontsize', ['fontsize']],
-            ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph']],
-            ['height', ['height']],
-            ['insert', ['link', 'table', 'hr']],
-            ['misc', ['codeview', 'undo', 'redo', 'fullscreen']]
-          ]
-    });
-})
 
 //DataTables
 $(document).ready(function () {
     $('.table').DataTable({
-        "ordering": false
+        "ordering": false,
+        "pageLength": 5
     });
 });
+
+//New Client Wizard
+$("#wizard").steps({
+    headerTag: "h3",
+    bodyTag: "section",
+    transitionEffect: "slideLeft",
+    autoFocus: true,
+    stepsOrientation: 0,
+    onFinished: function (event, currentIndex) {
+        $('#new-client-form').submit();
+    },
+    onStepChanged: function (event, currentIndex, priorIndex) { 
+        $("#cJson").val($("#appointSchedule").jqs('export'));
+    }
+});
+
+$('#client-contact-name').tooltip({ 'trigger': 'focus', 'title': 'This is the person that Dodd Group are able to contact.' });
+
+$('#appointSchedule').jqs({
+    hour: 24,
+    periodOptions: false
+});
+

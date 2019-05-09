@@ -1,5 +1,6 @@
 // Requirements
 const express = require('express'),
+    sql = require('mssql'),
     mongoose = require('mongoose'),
     passport = require('passport'),
     flash = require('connect-flash'),
@@ -7,7 +8,6 @@ const express = require('express'),
     bodyParser = require('body-parser'),
     sanitizer = require('express-sanitizer'),
     localStrategy = require('passport-local'),
-    http = require('https');
     methodOverride = require('method-override');
 
 
@@ -16,13 +16,22 @@ const app = express();
 //DB
 const User = require('./db/models/userSchema');
 
+// SQL Connection
+// sql.connect(`mssql://${keys.sql.user}:${keys.sql.password}@${keys.sql.server}/${keys.sql.database};`).then(req => {
+//     console.log('Connected to SQL');
+// }).catch(err => {
+//     console.log('Error...')
+//     if(err) console.log(err);
+// })
+
 //DB Connection
 mongoose.connect(keys.database.uri, {
     useNewUrlParser: true,
-    useCreateIndex: true
+    useCreateIndex: true,
+    useFindAndModify: false
 }, (err) => {
     if (err) return console.log(err);
-    console.log('Connected to the DB');
+    console.log('Connected to the MongoDB');
 });
 
 //Middleware
@@ -79,6 +88,16 @@ app.use('/', baseRoute);
 app.use('/admin', adminRoute);
 app.use('/help', helpRoutes);
 app.get('*', (req, res) => {
+    async () => {
+        try {
+            console.log('connecting...');
+            await sql.connect(`mssql://${keys.sql.user}:${keys.sql.password}@${keys.sql.server}/${keys.sql.database};`)
+            const result = await sql.query`select * from VERSION where ID = "1"`
+            console.dir(result)
+        } catch (err) {
+            console.log(err);
+        }
+    }
     res.render('base/404', {url: req.url});
 });
 

@@ -42,12 +42,16 @@ function error(req, res) {
 
 let conn = mongoose.createConnection(keys.database.uri, {
     useNewUrlParser: true,
-    useCreateIndex: true
+    useCreateIndex: true,
+    useFindAndModify: false
 });
 let gfs;
+let gfsClient;
 conn.once('open', () => {
     gfs = Grid(conn.db, mongoose.mongo);
     gfs.collection('guideUploads');
+    gfsClient = Grid(conn.db, mongoose.mongo);
+    gfsClient.collection('logoUploads');
 });
 
 const storage = new GridFsStorage({
@@ -63,7 +67,28 @@ const storage = new GridFsStorage({
                 const fileinfo = {
                     filename: filename,
                     bucketName: 'guideUploads',
-                    metadata: { 'displayName': file.originalname, 'title': req.body.gTitle || req.body.gTitleEdit, 'description': req.body.fileDescription || req.body.fileDescriptionEdit, 'guide': req.body.guide, 'user': req.user, 'uuid': `${file.originalname}${Date.now()}` }
+                    metadata: { 'displayName': file.originalname, 'title': req.body.gTitle || req.body.gTitleEdit, 'description': req.body.fileDescription || req.body.fileDescriptionEdit, 'guide': req.body.guide, 'user': req.user, 'uuid': `${file.originalname}${Date.now()}`, 'enabled': false }
+                };
+                resolve(fileinfo);
+            })
+        })
+    }
+});
+
+const logoStorage = new GridFsStorage({
+    url: keys.database.uri,
+    options: {
+        useNewUrlParser: true
+    },
+    file: (req, file) => {
+        return new Promise((resolve, reject) => {
+            crypto.randomBytes(16, (err, buf) => {
+                if (err) return reject(err);
+                const filename = buf.toString('hex') + path.extname(file.originalname);
+                const fileinfo = {
+                    filename: filename,
+                    bucketName: 'logoUploads',
+                    metadata: { 'displayName': file.originalname}
                 };
                 resolve(fileinfo);
             })
@@ -76,6 +101,16 @@ const upload = multer({
     fileFilter: function (req, file, cb) {
         if (path.extname(file.originalname) !== '.pdf') {
             return cb(new Error('Only pdfs are allowed'))
+        }
+        cb(null, true)
+    }
+}).single('upload');
+
+const logoUpload = multer({
+    storage: logoStorage,
+    fileFilter: function (req, file, cb) {
+        if (path.extname(file.originalname) !== '.jpg' || '.png') {
+            return cb(new Error('Only image files are allowed'))
         }
         cb(null, true)
     }
@@ -96,42 +131,58 @@ router.get('/', isLoggedIn, isSuperUser, (req, res) => {
     });
 });
 
-router.get('/faq/edit/:id', isLoggedIn, isSuperUser, (req, res) => {
-    Faq.findById(req.params.id, (err, faq) => {
-        if (err) error(req, res);
-        return res.render('admin/faq/edit', { faqE: faq });
+router.get('/faq/delete/:id', isLoggedIn, isSuperUser, (req, res) => {
+    Faq.findByIdAndDelete(req.params.id, (err, data) => {
+        if (err) error();
+        return res.redirect('/admin#faq-section');
+    })
+});
+
+router.get('/guide/upload/toggle/:id', isLoggedIn, isSuperUser, (req, res) => {
+    gfs.files.findOne({ 'metadata.uuid': req.params.id }, (err, guide) => {
+        if (err) error();
+        if (guide.metadata.enabled) {
+            gfs.files.updateOne({ '_id': guide._id }, { '$set': { 'metadata.enabled': false } });
+            return res.redirect('/admin#guide-section');
+        } else {
+            gfs.files.updateOne({ '_id': guide._id }, { '$set': { 'metadata.enabled': true } });
+            return res.redirect('/admin#guide-section');
+        }
+    });
+});
+
+router.get('/guide/written/toggle/:id', isLoggedIn, isSuperUser, (req, res) => {
+    selfHelp.findOne({ "_id": req.params.id }, (err, guide) => {
+        if (err) error();
+        if (guide.enabled) {
+            selfHelp.findByIdAndUpdate(req.params.id, { enabled: false }, (err, data) => {
+                if (err) error();
+                return res.redirect('/admin#guide-section');
+            });
+        } else {
+            selfHelp.findByIdAndUpdate(req.params.id, { enabled: true }, (err, data) => {
+                if (err) error();
+                return res.redirect('/admin#guide-section');
+            });
+        }
+    });
+});
+
+router.get('/guide/upload/delete/:id', isLoggedIn, isSuperUser, (req, res) => {
+    gfs.remove({ _id: req.params.id, root: 'guideUploads' }, (err, data) => {
+        if (err) console.log(err);
+        return res.redirect('/admin#guide-section');
+    })
+});
+
+router.get('/guide/written/delete/:id', isLoggedIn, isSuperUser, (req, res) => {
+    selfHelp.findByIdAndRemove(req.params.id, (err, data) => {
+        if (err) error();
+        return res.redirect('/admin#guide-section');
     })
 });
 
 // POST Requests
-router.post('/hrn/add', isLoggedIn, isSuperUser, (req, res) => {
-    Hrn.findOne({
-        $or: [
-            { number: req.body.hrnNumber },
-            {
-                $and: [
-                    { postcode: req.body.postcode },
-                    { houseNumber: req.body.houseNumber }
-                ]
-            }
-        ]
-    }, (err, data) => {
-        if (err) error(req, res)
-        if (data) {
-            console.log(data);
-        } else {
-            Hrn.create({
-                number: String(req.body.hrnNumber).replace(/ /g, '').toUpperCase(),
-                houseNumber: String(req.body.houseNumber).replace(/ /g, ''),
-                postcode: req.body.postCode.replace(/ /g, '').toUpperCase()
-            }, (err, data) => {
-                if (err) error(req, res)
-                req.flash('success', 'New HRN Number successfully added.');
-                return res.redirect('/admin');
-            });
-        }
-    })
-})
 
 router.post('/faq/add', isLoggedIn, isSuperUser, (req, res) => {
     User.findById(req.user.id, (err, user) => {
@@ -150,10 +201,10 @@ router.post('/faq/add', isLoggedIn, isSuperUser, (req, res) => {
         }, (err, done) => {
             if (err) error(req, res)
             req.flash('success', 'FAQ added successfully.');
-            return res.redirect('/admin');
+            return res.redirect('/admin#faq-section');
         })
     })
-})
+});
 
 router.post('/faq/edit/:id', isLoggedIn, isSuperUser, (req, res) => {
     Faq.findById(req.params.id, (err, faq) => {
@@ -171,16 +222,16 @@ router.post('/faq/edit/:id', isLoggedIn, isSuperUser, (req, res) => {
         faq.save((err, done) => {
             if (err) error(req, res)
             req.flash('success', 'FAQ successfully updated.');
-            return res.redirect(`${req.protocol}://${req.get('host')}${req.originalUrl}`);
+            return res.redirect(`/admin#faq-section`);
         })
     })
-})
+});
 
 router.post('/guide/add', isLoggedIn, isSuperUser, (req, res) => {
     upload(req, res, err => {
         if (err) {
             req.flash('fail', 'Only .pdf files are allowed.');
-            return res.redirect(`/admin`);
+            return res.redirect(`/admin#guide-section`);
         }
         if (req.body.fileUpload == 'false') {
             selfHelp.create({
@@ -190,38 +241,64 @@ router.post('/guide/add', isLoggedIn, isSuperUser, (req, res) => {
             }, (err, guide) => {
                 if (err) error();
                 req.flash('success', `${req.body.gTitle} Has been created.`);
-                return res.redirect(`/admin`);
+                return res.redirect(`/admin#guide-section`);
             })
         } else {
             req.flash('success', `${req.body.gTitle} has been uploaded`);
-            return res.redirect(`/admin`);
+            return res.redirect(`/admin#guide-section`);
         }
     });
-})
+});
 
 router.post('/guide/edit/:id', isLoggedIn, isSuperUser, (req, res) => {
     upload(req, res, err => {
         if (err) {
             req.flash('fail', 'Only .pdf files are allowed.');
-            return res.redirect(`/admin`);
+            return res.redirect(`/admin#guide-section`);
         }
-        if(req.body.fileUploadEdit == 'false'){
+        if (req.body.fileUploadEdit == 'false') {
             selfHelp.findById(req.params.id, (err, help) => {
-                if(err) error();
+                if (err) error();
                 help.title = req.body.gTitleEdit;
                 help.guide = req.body.guide;
                 help.description = req.body.fileDescriptionEdit;
                 help.save((err, done) => {
-                    if(err) error();
+                    if (err) error();
                     req.flash('success', 'Guide successfully updated.');
-                    return res.redirect('/admin');
+                    return res.redirect('/admin#guide-section');
                 })
             })
-        }else{
-            req.flash('success', `${req.body.gTitle} has been uploaded`);
-            return res.redirect(`/admin`)
+        } else {
+            selfHelp.findByIdAndDelete(req.params.id, (err, done) => {
+                if (err) error();
+                req.flash('success', `${req.body.gTitle} has been uploaded`);
+                return res.redirect(`/admin#guide-section`)
+            })
         }
     });
-})
+});
+
+router.post('/guide/upload/edit/:id', isLoggedIn, isSuperUser, (req, res) => {
+    upload(req, res, err => {
+        if (err) {
+            req.flash('fail', 'Only .pdf files are allowed.');
+            return res.redirect(`/admin#guide-section`);
+        }
+        gfs.remove({_id : req.params.id, root: 'guideUploads'}, (data) => {
+            req.flash('success', `${req.body.gTitle} has been uploaded`);
+            return res.redirect(`/admin#guide-section`);
+        });
+    });
+});
+
+router.post('/client/new', isLoggedIn, isSuperUser, (req, res) => {
+    logoUpload(req, res, err => {
+        if (err) {
+            req.flash('fail', 'Only image files are allowed.');
+            return res.redirect(`/admin`);
+        }
+        //Handle remaining body
+    });
+});
 
 module.exports = router;

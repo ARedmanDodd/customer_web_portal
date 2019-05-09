@@ -146,4 +146,10 @@ router.post('/login', passport.authenticate('local', {
 }), (req, res) => {
 });
 
+
+router.post('/test', (req, res) => {
+    let json = JSON.parse(req.body.client.basicCal);
+    req.body.client.basicCal = json;
+    res.send(req.body);
+})
 module.exports = router;
