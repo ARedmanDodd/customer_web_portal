@@ -10,6 +10,7 @@ const express = require('express'),
     Hrn = require('../db/models/hrnSchema'),
     User = require('../db/models/userSchema'),
     selfHelp = require('../db/models/selfHelp'),
+    Client = require('../db/models/clientSchema'),
     GridFsStorage = require('multer-gridfs-storage');
 
 function isLoggedIn(req, res, next) {
@@ -75,26 +76,14 @@ const storage = new GridFsStorage({
     }
 });
 
-const logoStorage = new GridFsStorage({
-    url: keys.database.uri,
-    options: {
-        useNewUrlParser: true
+const logoStorage = multer.diskStorage({
+    destination: function(req, file, cb){
+        cb(null, `./public/img/client/logo`);
     },
-    file: (req, file) => {
-        return new Promise((resolve, reject) => {
-            crypto.randomBytes(16, (err, buf) => {
-                if (err) return reject(err);
-                const filename = buf.toString('hex') + path.extname(file.originalname);
-                const fileinfo = {
-                    filename: filename,
-                    bucketName: 'logoUploads',
-                    metadata: { 'displayName': file.originalname}
-                };
-                resolve(fileinfo);
-            })
-        })
+    filename: function(req, file, cb){
+        cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
     }
-});
+})
 
 const upload = multer({
     storage: storage,
@@ -108,13 +97,13 @@ const upload = multer({
 
 const logoUpload = multer({
     storage: logoStorage,
-    fileFilter: function (req, file, cb) {
-        if (path.extname(file.originalname) !== '.jpg' || '.png') {
-            return cb(new Error('Only image files are allowed'))
-        }
-        cb(null, true)
-    }
-}).single('upload');
+    // fileFilter: function (req, file, cb) {
+    //     if (path.extname(file.originalname.toLowerCase()) !== '.jpg' || '.png') {
+    //         return cb(new Error('Only image files are allowed'))
+    //     }
+    //     cb(null, true)
+    // }
+}).single('cLogo');
 
 // GET Requests
 router.get('/', isLoggedIn, isSuperUser, (req, res) => {
@@ -284,7 +273,7 @@ router.post('/guide/upload/edit/:id', isLoggedIn, isSuperUser, (req, res) => {
             req.flash('fail', 'Only .pdf files are allowed.');
             return res.redirect(`/admin#guide-section`);
         }
-        gfs.remove({_id : req.params.id, root: 'guideUploads'}, (data) => {
+        gfs.remove({ _id: req.params.id, root: 'guideUploads' }, (data) => {
             req.flash('success', `${req.body.gTitle} has been uploaded`);
             return res.redirect(`/admin#guide-section`);
         });
@@ -294,10 +283,39 @@ router.post('/guide/upload/edit/:id', isLoggedIn, isSuperUser, (req, res) => {
 router.post('/client/new', isLoggedIn, isSuperUser, (req, res) => {
     logoUpload(req, res, err => {
         if (err) {
-            req.flash('fail', 'Only image files are allowed.');
+            console.log(err);
             return res.redirect(`/admin`);
         }
-        //Handle remaining body
+        console.log(req.file);
+        Client.create(req.body.client, (err, client) => {
+            if (err) {
+                console.log(err);
+                return res.redirect('/admin');
+            }
+            client.logo = req.file.filename;
+            client.save((err, save) => {
+                if (err) {
+                    console.log(err);
+                    return res.redirect('/admin');
+                }
+                User.register(new User({
+                    HRN_Number: `not required ${Date.now()}`,
+                    username: req.body.client.rootUser.toLowerCase(),
+                    firstName: 'not required',
+                    surname: 'not required',
+                    email: req.body.client.contactEmail.toLowerCase(),
+                    isClientAdmin: true,
+                    clientID: client.id
+                }), req.body.cRootPass, (err, user) => {
+                    if (err) {
+                        console.log(err);
+                        return res.redirect('/admin');
+                    }
+                    req.flash('success', `${req.body.client.businessName} successfully setup`);
+                    return res.redirect('/admin');
+                });
+            })
+        })
     });
 });
 

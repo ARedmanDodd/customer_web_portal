@@ -5,6 +5,9 @@ const keys = require('../services/keys');
 const User = require('../db/models/userSchema');
 const Hrn = require('../db/models/hrnSchema');
 const localStrategy = require('passport-local');
+const causeway = require('../services/modules/causeway');
+const querystring = require('querystring');
+const request = require('request');
 
 /**
  * 
@@ -147,9 +150,39 @@ router.post('/login', passport.authenticate('local', {
 });
 
 
-router.post('/test', (req, res) => {
-    let json = JSON.parse(req.body.client.basicCal);
-    req.body.client.basicCal = json;
-    res.send(req.body);
+router.get('/test', (req, res) => {
+    let form = {
+        grant_type: 'password',
+        username: keys.causeway.username,
+        password: keys.causeway.password
+    };
+
+    var formData = querystring.stringify(form);
+    request({
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        uri: 'https://telematics.causeway.com/auth/oauth/token',
+        body: formData,
+        method: 'POST'
+    }, (err, response, body) => {
+        if (err) {
+            console.log(err);
+        }
+        body = JSON.parse(body);
+
+        request({
+            uri: 'https://telematics.causeway.com/data/api/latestinstances/assetsandposition',
+            auth: {
+                'bearer': body.access_token
+            },
+            method: 'GET',
+        }, (err, request, body) => {
+            if(err) console.log(err);
+            res.send(JSON.parse(body));
+        })
+    });
+
+    // res.send(causeway.getVehicleData());
 })
 module.exports = router;

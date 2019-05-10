@@ -13,7 +13,9 @@ let userSchema = new mongoose.Schema ({
     email: {type: String, required: true, unique: true},
     resetPasswordToken: String,
     resetPasswordExpires: Date,
-    isSuperUser: {type: Boolean, default: false}
+    isSuperUser: {type: Boolean, default: false},
+    isClientAdmin: {type: Boolean, default: false},
+    clientID: {type: String}
 });
 
 userSchema.plugin(passportLocalMongoose);

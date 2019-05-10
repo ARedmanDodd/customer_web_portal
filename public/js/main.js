@@ -103,3 +103,41 @@ $('#appointSchedule').jqs({
     periodOptions: false
 });
 
+function randString(id){
+    let dataSet = $(id).attr('data-character-set').split(',');  
+    let possible = '';
+    if($.inArray('a-z', dataSet) >= 0){
+      possible += 'abcdefghijklmnopqrstuvwxyz';
+    }
+    if($.inArray('A-Z', dataSet) >= 0){
+      possible += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    }
+    if($.inArray('0-9', dataSet) >= 0){
+      possible += '0123456789';
+    }
+    if($.inArray('#', dataSet) >= 0){
+      possible += '![]{}()%&*$#^<>~@|';
+    }
+    let text = '';
+    for(let i=0; i < $(id).attr('data-size'); i++) {
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
+  }
+  
+  // Create a new password
+  $("#genPass").click(() => {
+    let field = $('#cRootPass');
+    let show = $('#genPassShow');
+    let string = randString(field)
+    field.val(string);
+    show.text(string);
+  });
+
+  function ID (){
+    return '_' + Math.random().toString(36).substr(2, 9);
+  };
+
+  $('#genUser').click(() => {
+      $('#cRootUser').val(ID());
+  })

@@ -11,7 +11,8 @@ let clientSchema = new mongoose.Schema ({
     addCounty: String,
     addPost: String,
     rootUser: {type: String, required: true, unique: true},
-    basicCal: {type: Object}
+    basicCal: {type: Object},
+    logo: String
 });
 
 module.exports = mongoose.model('client', clientSchema);

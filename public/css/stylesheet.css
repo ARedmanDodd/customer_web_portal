@@ -98,3 +98,7 @@ button.btn-link:hover{
     text-decoration: none;
     color: inherit;
 }
+
+.jqs-day{
+    height: 441px;
+}

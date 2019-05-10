@@ -230,7 +230,7 @@
 
       $('<div class="jqs-grid"><div class="jqs-grid-head"></div></div>').appendTo($(this.element));
 
-      for (var j = 0; j < 25; j++) {
+      for (var j = 7; j < 19; j++) {
         $('<div class="jqs-grid-line"><div class="jqs-grid-hour">' + this.formatHour(j) + '</div></div>').
           appendTo($('.jqs-grid', this.element));
       }
@@ -543,7 +543,7 @@
      * @returns {string}
      */
     periodInit: function (start, end) {
-      return this.periodFormat(start) + ' - ' + this.periodFormat(end);
+      return this.periodFormat(start + 14) + ' - ' + this.periodFormat(end + 14);
     },
 
     /**
@@ -598,8 +598,8 @@
      * @returns {[*,*]}
      */
     periodData: function (period) {
-      var start = Math.round(Number(period.css('top').replace(/\D/g,'')) / this.periodPosition);
-      var end = Math.round((period.height() + Number(period.css('top').replace(/\D/g,''))) / this.periodPosition);
+      var start = Math.round(Number(period.css('top').replace(/\D/g,'')) / this.periodPosition) + 14;
+      var end = Math.round((period.height() + Number(period.css('top').replace(/\D/g,''))) / this.periodPosition) + 14;
       return {
         start: this.periodFormat(start),
         end: this.periodFormat(end),

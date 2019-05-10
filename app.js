@@ -81,12 +81,14 @@ app.use((req, res, next) => {
 //Routes
 let baseRoute = require('./routes/base'),
     adminRoute = require('./routes/admin'),
+    clientRoute = require('./routes/client'),
     helpRoutes = require('./routes/help');
 
 //Routing
 app.use('/', baseRoute);
 app.use('/admin', adminRoute);
 app.use('/help', helpRoutes);
+app.use('/client', clientRoute);
 app.get('*', (req, res) => {
     async () => {
         try {

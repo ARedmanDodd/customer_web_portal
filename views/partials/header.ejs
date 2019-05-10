@@ -29,6 +29,7 @@
 
 <body class="h-100">
     <div class="container h-100">
+        <!-- Navigation -->
         <nav class="navbar navbar-expand-md fixed-top bg-light navbar-light">
             <a class="navbar-brand dodd-logo" href="/"><img src="/assets/images/DG_Logo.png"><img
                     src="/assets/images/DG_RENEW_LOGO.jpg"></a>
@@ -39,8 +40,28 @@
             </button>
             <div class="collapse navbar-collapse justify-content-end bg-light" id="navbarNavDropdown">
                 <ul class="navbar-nav justify-content-end">
-                    <% if(user){ %>
-                    <% if(user.isSuperUser){ %>
+                    <% if(user){
+                    if(user.isClientAdmin || user.isSuperUser){
+                        if(user.isClientAdmin){ %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/client/<% user.id %>">
+                                    Client Home
+                                </a>
+                            </li>
+                        <% }
+                        if(user.isSuperUser){ %>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    Client Home
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="accountrDropdown">
+                                    <a class="dropdown-item" href="#">Select Client</a>
+                                </div>
+                            </li>
+                        <% }
+                    }
+                    if(user.isSuperUser){ %>
                     <li class="nav-item">
                         <a class="nav-link" href="/admin">
                             Site Admin
@@ -106,6 +127,9 @@
                 </ul>
             </div>
         </nav>
+        <!-- Alerts -->
+
+        <!-- Alert Card -->
         <div id="dodd-alert-cards">
             <% if(fail && fail.length > 0) { %>
             <div class="alert alert-danger alert-dismissible fade show dodd-alert-floating" role="alert">
