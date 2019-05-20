@@ -17,12 +17,21 @@ const app = express();
 const User = require('./db/models/userSchema');
 
 // SQL Connection
-// sql.connect(`mssql://${keys.sql.user}:${keys.sql.password}@${keys.sql.server}/${keys.sql.database};`).then(req => {
-//     console.log('Connected to SQL');
-// }).catch(err => {
-//     console.log('Error...')
-//     if(err) console.log(err);
-// })
+sql.connect(keys.sql, err => {
+    if(err){
+        console.log('Failed to connect to SQL');
+        console.log(err)
+    }else{
+        console.log('connected to SQL');
+    }
+})
+
+// Sockets
+let io = require('socket.io').listen(app.listen(keys.app.port, () => {
+    console.log(`App now listening on port: ${keys.app.port}`);
+}));
+app.setMaxListeners(0);
+io.setMaxListeners(0);
 
 //DB Connection
 mongoose.connect(keys.database.uri, {
@@ -62,6 +71,8 @@ app.use((req, res, next) => {
     res.locals.success = req.flash('success');
     res.locals.validation = {};
     res.locals.title = '';
+    res.locals.gAPI = keys.google.map;
+    req.io = io;
     if (!req.user) {
         res.locals.user = req.user;
         next();
@@ -83,12 +94,14 @@ let baseRoute = require('./routes/base'),
     adminRoute = require('./routes/admin'),
     clientRoute = require('./routes/client'),
     helpRoutes = require('./routes/help');
+    contractRoutes = require('./routes/contract');
 
 //Routing
 app.use('/', baseRoute);
 app.use('/admin', adminRoute);
 app.use('/help', helpRoutes);
 app.use('/client', clientRoute);
+app.use('/contract', contractRoutes);
 app.get('*', (req, res) => {
     async () => {
         try {
@@ -104,6 +117,6 @@ app.get('*', (req, res) => {
 });
 
 // Listener
-app.listen(keys.app.port, () => {
-    console.log(`App now listening on port: ${keys.app.port}`);
-});
+// app.listen(keys.app.port, () => {
+//     console.log(`App now listening on port: ${keys.app.port}`);
+// });

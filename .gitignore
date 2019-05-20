@@ -1,5 +1,6 @@
 # Custom files
-
+services/keys.js
+setup_info.txt
 
 # Logs
 logs

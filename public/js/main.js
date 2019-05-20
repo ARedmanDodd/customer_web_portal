@@ -33,6 +33,13 @@ $(document).ready(() => {
     })
 });
 
+$(document).ready(() => {
+    $('.go-back').click(() => {
+        window.history.go(-1); 
+        return false;
+    })
+})
+
 // New guide form hide
 $(document).ready(() => {
     $('#writeGuide').hide();
@@ -72,7 +79,6 @@ $(document).ready(() => {
     });
 });
 
-
 //DataTables
 $(document).ready(function () {
     $('.table').DataTable({
@@ -81,6 +87,59 @@ $(document).ready(function () {
     });
 });
 
+$('#client-contact-name').tooltip({ 'trigger': 'focus', 'title': 'This is the person that Dodd Group are able to contact.' });
+
+function randString(id) {
+    let dataSet = $(id).attr('data-character-set').split(',');
+    let possible = '';
+    if ($.inArray('a-z', dataSet) >= 0) {
+        possible += 'abcdefghijklmnopqrstuvwxyz';
+    }
+    if ($.inArray('A-Z', dataSet) >= 0) {
+        possible += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    }
+    if ($.inArray('0-9', dataSet) >= 0) {
+        possible += '0123456789';
+    }
+    if ($.inArray('#', dataSet) >= 0) {
+        possible += '![]{}()%&*$#^<>~@|';
+    }
+    let text = '';
+    for (let i = 0; i < $(id).attr('data-size'); i++) {
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
+}
+
+// Create a new password
+$("#genPass").click(() => {
+    let field = $('#cRootPass');
+    let show = $('#genPassShow');
+    let string = randString(field)
+    field.val(string);
+    show.text(string);
+});
+
+function ID() {
+    return '_' + Math.random().toString(36).substr(2, 9);
+};
+
+$('#genUser').click(() => {
+    $('#cRootUser').val(ID());
+});
+
+// New client form validation
+let clientForm = $('#new-client-form');
+if(clientForm.length > 0){
+    clientForm.validate({
+        errorPlacement: function errorPlacement(error, element) {
+            element.after(error);
+        },
+        errorClass: 'is-invalid',
+        validClass: 'is-valid'
+    });
+}
+
 //New Client Wizard
 $("#wizard").steps({
     headerTag: "h3",
@@ -88,56 +147,85 @@ $("#wizard").steps({
     transitionEffect: "slideLeft",
     autoFocus: true,
     stepsOrientation: 0,
-    onFinished: function (event, currentIndex) {
-        $('#new-client-form').submit();
+    onStepChanging: function (event, currentIndex, newIndex) {
+        clientForm.validate().settings.ignore = ":hidden";
+        return clientForm.valid();
     },
-    onStepChanged: function (event, currentIndex, priorIndex) { 
+    onFinishing: function (event, currentIndex) {
+        clientForm.validate().settings.ignore = ":disabled";
+        return clientForm.valid();
+    },
+    onFinished: function (event, currentIndex) {
         $("#cJson").val($("#appointSchedule").jqs('export'));
+        $('#new-client-form').submit();
     }
 });
-
-$('#client-contact-name').tooltip({ 'trigger': 'focus', 'title': 'This is the person that Dodd Group are able to contact.' });
 
 $('#appointSchedule').jqs({
     hour: 24,
     periodOptions: false
 });
 
-function randString(id){
-    let dataSet = $(id).attr('data-character-set').split(',');  
-    let possible = '';
-    if($.inArray('a-z', dataSet) >= 0){
-      possible += 'abcdefghijklmnopqrstuvwxyz';
-    }
-    if($.inArray('A-Z', dataSet) >= 0){
-      possible += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    }
-    if($.inArray('0-9', dataSet) >= 0){
-      possible += '0123456789';
-    }
-    if($.inArray('#', dataSet) >= 0){
-      possible += '![]{}()%&*$#^<>~@|';
-    }
-    let text = '';
-    for(let i=0; i < $(id).attr('data-size'); i++) {
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-    return text;
-  }
-  
-  // Create a new password
-  $("#genPass").click(() => {
-    let field = $('#cRootPass');
-    let show = $('#genPassShow');
-    let string = randString(field)
-    field.val(string);
-    show.text(string);
-  });
+// Report form validation
+let reportForm = $('#new-report-wizard-form');
+if (reportForm.length > 0) {
+    reportForm.validate({
+        errorPlacement: function errorPlacement(error, element) {
+            element.after(error);
+        },
+        errorClass: 'is-invalid',
+        validClass: 'is-valid'
+    });
+}
 
-  function ID (){
-    return '_' + Math.random().toString(36).substr(2, 9);
-  };
+//New Report Wizard
+$("#new-report-wizard").steps({
+    headerTag: "h3",
+    bodyTag: "section",
+    transitionEffect: "slideLeft",
+    autoFocus: true,
+    stepsOrientation: 0,
+    onStepChanging: function (event, currentIndex, newIndex) {
+        reportForm.validate().settings.ignore = ":disabled,:hidden";
+        return reportForm.valid();
+    },
+    onFinishing: function (event, currentIndex) {
+        reportForm.validate().settings.ignore = ":disabled";
+        return reportForm.valid();
+    },
+    onFinished: function (event, currentIndex) {
+        $('#new-report-wizard-form').submit();
+    }
+});
 
-  $('#genUser').click(() => {
-      $('#cRootUser').val(ID());
-  })
+// Text area auto expand
+var textarea = document.querySelector('textarea');
+
+textarea.addEventListener('keydown', autosize);
+
+function autosize() {
+    var el = this;
+    setTimeout(function () {
+        el.style.cssText = 'height:auto; padding:0';
+        el.style.cssText = 'height:' + el.scrollHeight + 'px';
+    }, 0);
+}
+
+// Live Chat
+jQuery(document).ready(function ($) {
+    // Animate Floating MonsterLink into view on page load
+    $(".dodd-live-chat").addClass("show");
+
+    // Animate out of view function
+    function closeFloatingMonsterLink(e) {
+        e.preventDefault();
+        $(".dodd-live-chat").removeClass("show");
+    }
+    // Triggers that run closeFloatingMonsterLink function
+    $('.dodd-live-chat .float-close').click(closeFloatingMonsterLink);
+
+});
+
+$('#live-chat-button').click(function () {
+    window.open('https://tawk.to/chat/5cdbcc052846b90c57ae902e/default', 'Live Chat', 'directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=400,height=350');
+});

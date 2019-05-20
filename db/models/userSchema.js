@@ -3,10 +3,7 @@ const mongoose = require('mongoose'),
 
 let userSchema = new mongoose.Schema ({
     HRN_Number: {type: String, required: true, unique: true},
-    activeHRN: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'hrn'
-    }],
+    site_account_number: {type: String, required: true, unique: true},
     firstName: {type: String, required: true},
     surname: {type: String, required: true},
     username: {type: String, required: true, unique: true},

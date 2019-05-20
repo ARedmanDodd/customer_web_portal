@@ -17,14 +17,15 @@
     </ul>
     <div class="tab-content" id="myTabContent">
         <!-- FAQ Tab -->
-         <div class="tab-pane fade show active pad-20" id="faq" role="tabpanel" aria-labelledby="faq-tab">
-            <h1 class="display 4">
-                FAQ's
-            </h1>
-            <p class="lead">
-                We hope that many of the questions below will help with your enquiry:
-            </p>
-            <hr class="my-4">
+        <div class="tab-pane fade show active" id="faq" role="tabpanel" aria-labelledby="faq-tab">
+            <div class="help-header">
+                <h1 class="display 4">
+                    FAQ's
+                </h1>
+                <p class="lead">
+                    We hope that many of the questions below will help with your enquiry:
+                </p>
+            </div>
             <div class="row justify-content-center">
                 <div class="col-md-7">
                     <input class="form-control" onkeyup="searchBar()" id="faq-search" name="search" type="text">
@@ -71,14 +72,15 @@
             </div>
         </div>
         <!-- Help Tab -->
-        <div class="tab-pane fade pad-20" id="help" role="tabpanel" aria-labelledby="help-tab">
-            <h1 class="display 4">
-                Self Help Guides
-            </h1>
-            <p class="lead">
-                These guides provide a step-by-step set of instructions to help you to resolve a variety of benign gas/electrical issues without the need for us to get involced.
-            </p>
-            <hr class="my-4">
+        <div class="tab-pane fade" id="help" role="tabpanel" aria-labelledby="help-tab">
+            <div class="help-header">
+                <h1 class="display 4">
+                    Self Help Guides
+                </h1>
+                <p class="lead">
+                    These guides provide a step-by-step set of instructions to help you to resolve a variety of benign gas/electrical issues without the need for us to get involced.
+                </p>
+            </div>
             <div class="row justify-content-center">
                 <div class="col-md-7">
                     <input class="form-control" id="help-search" name="help-search" type="text">
@@ -91,10 +93,12 @@
                 <% files.forEach(file => { 
                     if(file.metadata.enabled){ %>
                         <div class="col-md-3 dodd-file">
-                            <div class="card shadow p-3 mb-5 bg-white rounded">
-                                <div class="card-body">
+                            <div class="card shadowmb-5">
+                                <div class="guide-card-body card-body">
                                     <h5 class="card-title"><%= file.metadata.title %></h5>
                                     <p class="card-text"><%= file.metadata.description %></p>
+                                </div>
+                                <div class="card-footer">
                                     <a href="/help/guide/download/<%= file.metadata.uuid %>" download="/help/guide/download/<%= file.metadata.uuid %>" class="btn btn-sm btn-info">Download</a>
                                 </div>
                             </div>
@@ -106,10 +110,12 @@
                 <% selfHelp.forEach(help => { 
                     if(help.enabled){ %>
                         <div class="col-md-3 dodd-file">
-                            <div class="card shadow p-3 mb-5 bg-white rounded">
-                                <div class="card-body">
+                            <div class="card shadow mb-5">
+                                <div class="guide-card-body card-body">
                                     <h5 class="card-title"><%= help.title %></h5>
                                     <p class="card-text"><%= help.description %></p>
+                                </div>
+                                <div class="card-footer">
                                     <a href="/help/guide/pdf/generate/download/<%= help.id %>" download="/help/guide/pdf/generate/download/<%= help.id %>" class="btn btn-info btn-sm">Download</a>
                                 </div>
                             </div>
@@ -120,12 +126,13 @@
         </div>
         <!-- Contact Tab -->
         <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-            <div class="row">
-                <div class="col-12">
-                    <p class="lead">
-                        A list of all different contact informaion including an email form.
-                    </p>
-                </div>
+            <div class="help-header">
+                <h1 class="display-4">
+                    Contact Us
+                </h1>
+                <p class="lead">
+                    A list of all different contact informaion including an email form.
+                </p>
             </div>
         </div>
     </div>

@@ -1,18 +1,30 @@
 const express = require('express'),
     router = express.Router(),
     keys = require('../services/keys'),
+    sql = require('mssql'),
+    request = new sql.Request,
     User = require('../db/models/userSchema'),
     Client = require('../db/models/clientSchema');
 
 router.use((req, res, next) => {
-    Client.findById(res.locals.user.clientID, (err, client) => {
-        if (err) {
+
+    request.query(`SELECT TOP 1 * FROM SALES_ACCOUNTS WHERE ACCOUNT_NUMBER = '${res.locals.user.clietnID}'`, (err, record) => {
+        if(err){
             next();
-        } else {
-            res.locals.client = client
+        }else{
+            res.locals.client = record.recordset[0];
             next();
         }
     })
+
+    // Client.findById(res.locals.user.clientID, (err, client) => {
+    //     if (err) {
+    //         next();
+    //     } else {
+    //         res.locals.client = client
+    //         next();
+    //     }
+    // })
 })
 
 function isLoggedIn(req, res, next) {

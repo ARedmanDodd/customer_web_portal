@@ -5,14 +5,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Dodd Group Client Portal | <% if(title){%> <%= title %> <% } %></title>
+    <title>Dodd Group Client Portal | <% if(client){%> <%= client.businessName %> <% } %></title>
     <meta name="author" content="Ashton Redman">
     <meta name="description" content="">
     <meta name="keywords" content="">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=font1|font2" type="text/css">
-        <link href="/css/summernote-bs4.css" rel="stylesheet">
+    <link href="/css/summernote-bs4.css" rel="stylesheet">
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" type="text/css">
     <link rel="stylesheet" href="/css/jquery.steps.css" type="text/css">
@@ -20,19 +20,18 @@
     <link rel="stylesheet" href="/css/stylesheet.css" type="text/css">
 </head>
 
-<body class="h-100">
-    <div class="container h-100">
+<body class="h-100 dodd-contract">
+    <div class="h-100">
         <!-- Navigation -->
-        <nav class="navbar navbar-expand-md fixed-top bg-light navbar-light">
-            <a class="navbar-brand dodd-logo" href="/"><img src="/assets/images/DG_Logo.png" alt="Dodd group logo"><img
-                    src="/img/Property_care.png" alt="property care logo"></a>
-            <a href="/" id="logo"><img class="dodd-logo d-none d-lg-block" id="logo" src="/assets/images/DG.PNG"></a>
+        <nav class="navbar navbar-expand-md fixed-top navbar-light">
+            <a class="navbar-brand dodd-logo" href="/contract"><img src="/img/Property_care.png" title="Contract Home"></a>
+            <a href="/" id="logo"><img class="dodd-logo d-none d-lg-block" id="logo" src="/assets/images/DG.PNG" title="Home" alt="Dodd Group Logo"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse justify-content-end bg-light" id="navbarNavDropdown">
-                <ul class="navbar-nav justify-content-end">
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+                <ul class="navbar-nav custom-nav justify-content-end">
                     <% if(user){
                     if(user.isClientAdmin || user.isSuperUser){
                         if(user.isClientAdmin){ %>
@@ -64,48 +63,18 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/contract">Contract</a>
                     </li>
+                    <% } %>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Account
+                        <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            My Account
                         </a>
                         <div class="dropdown-menu" aria-labelledby="accountrDropdown">
-                            <a class="dropdown-item" href="/contract/account">Account Details</a>
+                            <a class="dropdown-item" href="/contract/account">Account Detials</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/logout">Logout</a>
+                            <a class="dropdown-item" href="/logout">Log Out</a>
                         </div>
                     </li>
-                    <% } else { %>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="" role="button"
-                            aria-haspopup="true" aria-expanded="false">Log In</a>
-                        <div class="dropdown-menu dropdown-menu-lg-right" aria-labelledby="dropdown">
-                            <form class="form" action="/login" method="POST">
-                                <div class="container">
-                                    <div class="form-group row">
-                                        <label for="username"
-                                            class="col-sm-2 col-form-label col-form-label-sm">Username:</label>
-                                        <div class="col-sm-12">
-                                            <input id="username" class="form-control form-control-sm" name="username"
-                                                type="text">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="password"
-                                            class="col-sm-2 col-form-label col-form-label-sm">Password:</label>
-                                        <div class="col-sm-12">
-                                            <input id="password" class="form-control form-control-sm" type="password"
-                                                name="password">
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-sm btn-success" type="submit">Log In</button>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="nav-link" href="/register"><small>Register Here.</small></a>
-                                </div>
-                            </form>
-                        </div>
-                    </li>
-                    <% } %>
                     <li class="nav-item">
                         <a class="nav-link" href="/help">
                             Help
@@ -114,6 +83,9 @@
                 </ul>
             </div>
         </nav>
+        <!-- Alerts -->
+
+        <!-- Alert Card -->
         <div id="dodd-alert-cards">
             <% if(fail && fail.length > 0) { %>
             <div class="alert alert-danger alert-dismissible fade show dodd-alert-floating" role="alert">
