@@ -1,14 +1,15 @@
 const express = require('express'),
     path = require('path'),
     router = express.Router(),
+    moment = require('moment'),
     multer = require('multer'),
     crypto = require('crypto'),
     mongoose = require('mongoose'),
     Grid = require('gridfs-stream'),
     keys = require('../services/keys'),
     Faq = require('../db/models/faqSchema'),
-    Hrn = require('../db/models/hrnSchema'),
     User = require('../db/models/userSchema'),
+    News = require('../db/models/newsSchema'),
     selfHelp = require('../db/models/selfHelp'),
     Client = require('../db/models/clientSchema'),
     GridFsStorage = require('multer-gridfs-storage');
@@ -83,6 +84,15 @@ const logoStorage = multer.diskStorage({
     filename: function(req, file, cb){
         cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
     }
+});
+
+const newsStorage = multer.diskStorage({
+    destination: function(req, file, cb){
+        cb(null, `./public/img/news`);
+    },
+    filename: function(req, file, cb){
+        cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
+    }
 })
 
 const upload = multer({
@@ -104,6 +114,10 @@ const logoUpload = multer({
     //     cb(null, true)
     // }
 }).single('cLogo');
+
+const newsUpload = multer({
+    storage: newsStorage,
+}).fields([{name: 'headImage',maxCount: 1},{name: 'additionalImages'}]);
 
 // GET Requests
 router.get('/', isLoggedIn, isSuperUser, (req, res) => {
@@ -318,5 +332,37 @@ router.post('/client/new', isLoggedIn, isSuperUser, (req, res) => {
         })
     });
 });
+
+router.post('/news/new', isLoggedIn, (req, res) => {
+    newsUpload(req, res, err => {
+        if (err) {
+            console.log(err);
+            return res.redirect(`/admin`);
+        }
+        News.create({
+            author: `${req.user.firstName} ${req.user.surname}`,
+            title: req.body.title,
+            subHeading: req.body.subHeading,
+            article: req. body.article,
+            mainImage: req.files.headImage[0].filename,
+            date: moment(Date.now()).format('DD-MM-YYYY')
+        }, (err, news) => {
+            if(err){
+                if (keys.debug) console.log(err);
+                req.flash('fail', keys.messages.dbError);
+                return res.redirect(`${req.protocol}://${req.get('host')}${req.originalUrl}`);
+            }
+            news.additionalImages.push(req.files.additionalImages);
+            news.save((err, saved) => {
+                if(err){
+                    if (keys.debug) console.log(err);
+                    req.flash('fail', keys.messages.dbError);
+                    return res.redirect(`${req.protocol}://${req.get('host')}${req.originalUrl}`);
+                }
+                return res.redirect('/admin');
+            })
+        })
+    });
+})
 
 module.exports = router;

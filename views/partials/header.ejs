@@ -46,21 +46,15 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false">
-                                    Client Home
+                                    Admin
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="accountrDropdown">
                                     <a class="dropdown-item" href="#">Select Client</a>
+                                    <a class="dropdown-item" href="/admin">Site Admin</a>
                                 </div>
                             </li>
                         <% }
-                    }
-                    if(user.isSuperUser){ %>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin">
-                            Site Admin
-                        </a>
-                    </li>
-                    <% } %>
+                    } %>
                     <li class="nav-item">
                         <a class="nav-link" href="/contract">Contract</a>
                     </li>

@@ -1,442 +1,609 @@
-<% include ../partials/header %>
+<% include ../partials/admin_header %>
 
 <div class="row">
-    <div class="col-12 mg-bt-20 page-template">
-        <div class="admin-help-header">
-            <h3>
-                Client's
-            </h3>
-            <p class="lead">
-                Client administration.
-            </p>
-        </div>
-        <div class="col-12 mg-bt-20 d-none d-lg-block">
-            <div class="help-panel">
-                <h4>
-                    New client setup
-                </h4>
-            </div>
-            <form class="form" id="new-client-form" action="/admin/client/new" method="POST"
-                enctype="multipart/form-data">
-                <div class="form-row">
-                    <div class="col-12">
-                        <div class="accordion pad-20" id="client-wizard">
-                            <div class="card">
-                                <div class="card-header" id="client_wizard_label">
-                                    <h2 class="mb-0">
-                                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
-                                            data-target="#collapse_client-wizard" aria-expanded="false"
-                                            aria-controls="collapse_client-wizard">
-                                            Open New Client Wizard
-                                        </button>
-                                    </h2>
-                                </div>
-                                <div id="collapse_client-wizard" class="collapse" aria-labelledby="client_wizard_label"
-                                    data-parent="#client-wizard">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div id="wizard">
-                                                    <h3>Client Details</h3>
-                                                    <section>
-                                                        <p class="lead"><strong>Details:</strong></p>
-                                                        <hr>
-                                                        <div class="form-row">
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label class="form-label" for="cName">Client
-                                                                        Name:</label>
-                                                                    <input class="form-control" required placeholder="eg: Dodd Group" type="text" name="client[businessName]" id="client[businessName]">
-                                                                    <small class="form-text text-muted">The Business
-                                                                        name of the client being added.</small>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label class="form-lable" for="cLogo">Client
-                                                                        Logo:</label>
-                                                                    <input class="form-control-file" type="file"
-                                                                        name="cLogo" id="cLogo">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <hr class="my-4">
-                                                        <div class="form-row">
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label for="client-contact-name"
-                                                                        class="form-label">Contact Name:</label>
-                                                                    <input type="text" class="form-control"
-                                                                        name="client[contactName]" required id="client-contact-name" placeholder="John Smith">
-                                                                    <small class="form-text text-muted">Please provide
-                                                                        the name of the person to contact in regards to
-                                                                        the client page.</small>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="client-contact-email"
-                                                                        class="form-label">Contact E-mail:</label>
-                                                                    <input class="form-control" type="email" required name="client[contactEmail]" id="client-contact-email" placeholder="JohnSmith@client.co.uk">
-                                                                    <small class="fom-text text-muted">Please provide an
-                                                                        email address for the person mentioned
-                                                                        above.</small>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="client-contact-phone"
-                                                                        class="form-label">Contact Phone:</label>
-                                                                    <input class="form-control" type="tel" id="client-contact-phone" name="client[contactPhone]" required placeholder="+44">
-                                                                    <small class="form-text text-muted">Please provide a
-                                                                        telephone number for the contact above.</small>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label class="form-label">Address:</label>
-                                                                    <input type="text" class="form-control" name="client[add1]" required placeholder="Address Line 1">
-                                                                    <input type="text" class="form-control"
-                                                                        name="client[add2]"
-                                                                        placeholder="Address Line 2">
-                                                                    <input type="text" class="form-control"
-                                                                        name="client[addCity]" placeholder="City">
-                                                                    <select class="form-control" name="client[addCounty]" required>
-                                                                        <% let county = [
-                                                                                                'Aberdeenshire',
-                                                                                                'Angus',
-                                                                                                'Antrim',
-                                                                                                'Argyll',
-                                                                                                'Armagh',
-                                                                                                'Avon',
-                                                                                                'Ayrshire',
-                                                                                                'Banffshire',
-                                                                                                'Bedfordshire',
-                                                                                                'Berkshire',
-                                                                                                'Berwickshire',
-                                                                                                'Buckinghamshire',
-                                                                                                'Bute',
-                                                                                                'Caithness',
-                                                                                                'Cambridgeshire',
-                                                                                                'Cheshire',
-                                                                                                'Clackmannanshire',
-                                                                                                'Cleveland',
-                                                                                                'Clwyd',
-                                                                                                'Cornwall',
-                                                                                                'Cumbria',
-                                                                                                'Derbyshire',
-                                                                                                'Devon',
-                                                                                                'Dorset',
-                                                                                                'Down',
-                                                                                                'Dumfriesshire',
-                                                                                                'Dunbartonshire',
-                                                                                                'Durham',
-                                                                                                'Dyfed',
-                                                                                                'East Lothian',
-                                                                                                'East Sussex',
-                                                                                                'Essex',
-                                                                                                'Fermanagh',
-                                                                                                'Fife',
-                                                                                                'Gloucestershire',
-                                                                                                'Gwent',
-                                                                                                'Gwynedd',
-                                                                                                'Hampshire',
-                                                                                                'Herefordshire',
-                                                                                                'Hertfordshire',
-                                                                                                'Inverness-shire',
-                                                                                                'Isle of Wight',
-                                                                                                'Kent',
-                                                                                                'Kincardineshire',
-                                                                                                'Kinross-shire',
-                                                                                                'Kirkcudbrightshire',
-                                                                                                'Lanarkshire',
-                                                                                                'Lancashire',
-                                                                                                'Leicestershire',
-                                                                                                'Lincolnshire',
-                                                                                                'London',
-                                                                                                'Londonderry',
-                                                                                                'Merseyside',
-                                                                                                'Middlesex',
-                                                                                                'Mid Glamorgan',
-                                                                                                'Midlothian',
-                                                                                                'Moray',
-                                                                                                'Nairnshire',
-                                                                                                'Norfolk',
-                                                                                                'Northamptonshire',
-                                                                                                'North Humberside',
-                                                                                                'Northumberland',
-                                                                                                'North Yorkshire',
-                                                                                                'Nottinghamshire',
-                                                                                                'Orkney',
-                                                                                                'Oxfordshire',
-                                                                                                'Peeblesshire',
-                                                                                                'Perthshire',
-                                                                                                'Powys',
-                                                                                                'Renfrewshire',
-                                                                                                'Ross-shire',
-                                                                                                'Roxburghshire',
-                                                                                                'Rutland',
-                                                                                                'Selkirkshire',
-                                                                                                'Shetland',
-                                                                                                'Shropshire',
-                                                                                                'Somerset',
-                                                                                                'South Glamorgan',
-                                                                                                'South Humberside',
-                                                                                                'South Yorkshire',
-                                                                                                'Staffordshire',
-                                                                                                'Stirlingshire',
-                                                                                                'Suffolk',
-                                                                                                'Surrey',
-                                                                                                'Sutherland',
-                                                                                                'Tyne and Wear',
-                                                                                                'Tyrone',
-                                                                                                'Warwickshire',
-                                                                                                'West Glamorgan',
-                                                                                                'West Lothian',
-                                                                                                'West Midlands',
-                                                                                                'West Sussex',
-                                                                                                'West Yorkshire',
-                                                                                                'Wigtownshire',
-                                                                                                'Wiltshire',
-                                                                                                'Worcestershire'
-                                                                                            ] %>
-                                                                        <option selected disabled>County</option>
-                                                                        <% county.forEach((county) => { %>
-                                                                        <option>
-                                                                            <%= county %>
-                                                                        </option>
-                                                                        <% }) %>
-                                                                    </select>
-                                                                    <input type="text" class="form-control"
-                                                                        name="client[addPost]" placeholder="Post Code">
-                                                                    <small class="form-text text-muted">Please provide a
-                                                                        postal address for the client</small>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </section>
-                                                    <h3>Appointments</h3>
-                                                    <section>
-                                                        <p class="lead"><strong>Appointments:</strong></p>
-                                                                <hr>
-                                                        <div id="appointSchedule">
+    <div class="col-xl-6 col-sm-12">
+        <div class="row">
+            <div class="col-sm-12 d-none d-lg-block">
+                <div class="col-12 mg-bt-20 page-template">
+                    <div class="admin-help-header">
+                        <h3>
+                            Client's
+                        </h3>
+                        <p class="lead">
+                            Client administration.
+                        </p>
+                    </div>
+                    <div class="col-12 mg-bt-20 d-none d-lg-block">
+                        <div class="help-body">
+                            <div class="help-panel">
+                                <h4>
+                                    New client setup
+                                </h4>
+                            </div>
+                            <p class="lead info">
+                                Use the New Client Wizard to set up a new client. If a client has not been set up and a
+                                tenant uses the
+                                portal, they will see by default Dodd Group branding.
+                            </p>
+                            <form class="form" id="new-client-form" action="/admin/client/new" method="POST"
+                                enctype="multipart/form-data">
+                                <div class="form-row">
+                                    <div class="col-12">
+                                        <div class="accordion pad-20" id="client-wizard">
+                                            <div class="card">
+                                                <div class="card-header" id="client_wizard_label">
+                                                    <h2 class="mb-0">
+                                                        <button class="btn btn-link collapsed" type="button"
+                                                            data-toggle="collapse" data-target="#collapse_client-wizard"
+                                                            aria-expanded="false"
+                                                            aria-controls="collapse_client-wizard">
+                                                            Open New Client Wizard
+                                                        </button>
+                                                    </h2>
+                                                </div>
+                                                <div id="collapse_client-wizard" class="collapse"
+                                                    aria-labelledby="client_wizard_label" data-parent="#client-wizard">
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <div id="wizard">
+                                                                    <h3>Client Details</h3>
+                                                                    <section>
+                                                                        <p class="lead"><strong>Details:</strong></p>
+                                                                        <hr>
+                                                                        <div class="form-row">
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <label class="form-label"
+                                                                                        for="cName">Client
+                                                                                        Name:</label>
+                                                                                    <input class="form-control" required
+                                                                                        placeholder="eg: Dodd Group"
+                                                                                        type="text"
+                                                                                        name="client[businessName]"
+                                                                                        id="client[businessName]">
+                                                                                    <small
+                                                                                        class="form-text text-muted">The
+                                                                                        Business
+                                                                                        name of the client being
+                                                                                        added.</small>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <label class="form-lable"
+                                                                                        for="cLogo">Client
+                                                                                        Logo:</label>
+                                                                                    <input class="form-control-file"
+                                                                                        type="file" name="cLogo"
+                                                                                        id="cLogo">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr class="my-4">
+                                                                        <div class="form-row">
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <label for="client-contact-name"
+                                                                                        class="form-label">Contact
+                                                                                        Name:</label>
+                                                                                    <input type="text"
+                                                                                        class="form-control"
+                                                                                        name="client[contactName]"
+                                                                                        required
+                                                                                        id="client-contact-name"
+                                                                                        placeholder="John Smith">
+                                                                                    <small
+                                                                                        class="form-text text-muted">Please
+                                                                                        provide
+                                                                                        the name of the person to
+                                                                                        contact in
+                                                                                        regards to
+                                                                                        the client page.</small>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label for="client-contact-email"
+                                                                                        class="form-label">Contact
+                                                                                        E-mail:</label>
+                                                                                    <input class="form-control"
+                                                                                        type="email" required
+                                                                                        name="client[contactEmail]"
+                                                                                        id="client-contact-email"
+                                                                                        placeholder="JohnSmith@client.co.uk">
+                                                                                    <small
+                                                                                        class="fom-text text-muted">Please
+                                                                                        provide an
+                                                                                        email address for the person
+                                                                                        mentioned
+                                                                                        above.</small>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label for="client-contact-phone"
+                                                                                        class="form-label">Contact
+                                                                                        Phone:</label>
+                                                                                    <input class="form-control"
+                                                                                        type="tel"
+                                                                                        id="client-contact-phone"
+                                                                                        name="client[contactPhone]"
+                                                                                        required placeholder="+44">
+                                                                                    <small
+                                                                                        class="form-text text-muted">Please
+                                                                                        provide a
+                                                                                        telephone number for the contact
+                                                                                        above.</small>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <label
+                                                                                        class="form-label">Address:</label>
+                                                                                    <input type="text"
+                                                                                        class="form-control"
+                                                                                        name="client[add1]" required
+                                                                                        placeholder="Address Line 1">
+                                                                                    <input type="text"
+                                                                                        class="form-control"
+                                                                                        name="client[add2]"
+                                                                                        placeholder="Address Line 2">
+                                                                                    <input type="text"
+                                                                                        class="form-control"
+                                                                                        name="client[addCity]"
+                                                                                        placeholder="City">
+                                                                                    <select class="form-control"
+                                                                                        name="client[addCounty]"
+                                                                                        required>
+                                                                                        <% let county = [
+                                                                                                                                                            'Aberdeenshire',
+                                                                                                                                                            'Angus',
+                                                                                                                                                            'Antrim',
+                                                                                                                                                            'Argyll',
+                                                                                                                                                            'Armagh',
+                                                                                                                                                            'Avon',
+                                                                                                                                                            'Ayrshire',
+                                                                                                                                                            'Banffshire',
+                                                                                                                                                            'Bedfordshire',
+                                                                                                                                                            'Berkshire',
+                                                                                                                                                            'Berwickshire',
+                                                                                                                                                            'Buckinghamshire',
+                                                                                                                                                            'Bute',
+                                                                                                                                                            'Caithness',
+                                                                                                                                                            'Cambridgeshire',
+                                                                                                                                                            'Cheshire',
+                                                                                                                                                            'Clackmannanshire',
+                                                                                                                                                            'Cleveland',
+                                                                                                                                                            'Clwyd',
+                                                                                                                                                            'Cornwall',
+                                                                                                                                                            'Cumbria',
+                                                                                                                                                            'Derbyshire',
+                                                                                                                                                            'Devon',
+                                                                                                                                                            'Dorset',
+                                                                                                                                                            'Down',
+                                                                                                                                                            'Dumfriesshire',
+                                                                                                                                                            'Dunbartonshire',
+                                                                                                                                                            'Durham',
+                                                                                                                                                            'Dyfed',
+                                                                                                                                                            'East Lothian',
+                                                                                                                                                            'East Sussex',
+                                                                                                                                                            'Essex',
+                                                                                                                                                            'Fermanagh',
+                                                                                                                                                            'Fife',
+                                                                                                                                                            'Gloucestershire',
+                                                                                                                                                            'Gwent',
+                                                                                                                                                            'Gwynedd',
+                                                                                                                                                            'Hampshire',
+                                                                                                                                                            'Herefordshire',
+                                                                                                                                                            'Hertfordshire',
+                                                                                                                                                            'Inverness-shire',
+                                                                                                                                                            'Isle of Wight',
+                                                                                                                                                            'Kent',
+                                                                                                                                                            'Kincardineshire',
+                                                                                                                                                            'Kinross-shire',
+                                                                                                                                                            'Kirkcudbrightshire',
+                                                                                                                                                            'Lanarkshire',
+                                                                                                                                                            'Lancashire',
+                                                                                                                                                            'Leicestershire',
+                                                                                                                                                            'Lincolnshire',
+                                                                                                                                                            'London',
+                                                                                                                                                            'Londonderry',
+                                                                                                                                                            'Merseyside',
+                                                                                                                                                            'Middlesex',
+                                                                                                                                                            'Mid Glamorgan',
+                                                                                                                                                            'Midlothian',
+                                                                                                                                                            'Moray',
+                                                                                                                                                            'Nairnshire',
+                                                                                                                                                            'Norfolk',
+                                                                                                                                                            'Northamptonshire',
+                                                                                                                                                            'North Humberside',
+                                                                                                                                                            'Northumberland',
+                                                                                                                                                            'North Yorkshire',
+                                                                                                                                                            'Nottinghamshire',
+                                                                                                                                                            'Orkney',
+                                                                                                                                                            'Oxfordshire',
+                                                                                                                                                            'Peeblesshire',
+                                                                                                                                                            'Perthshire',
+                                                                                                                                                            'Powys',
+                                                                                                                                                            'Renfrewshire',
+                                                                                                                                                            'Ross-shire',
+                                                                                                                                                            'Roxburghshire',
+                                                                                                                                                            'Rutland',
+                                                                                                                                                            'Selkirkshire',
+                                                                                                                                                            'Shetland',
+                                                                                                                                                            'Shropshire',
+                                                                                                                                                            'Somerset',
+                                                                                                                                                            'South Glamorgan',
+                                                                                                                                                            'South Humberside',
+                                                                                                                                                            'South Yorkshire',
+                                                                                                                                                            'Staffordshire',
+                                                                                                                                                            'Stirlingshire',
+                                                                                                                                                            'Suffolk',
+                                                                                                                                                            'Surrey',
+                                                                                                                                                            'Sutherland',
+                                                                                                                                                            'Tyne and Wear',
+                                                                                                                                                            'Tyrone',
+                                                                                                                                                            'Warwickshire',
+                                                                                                                                                            'West Glamorgan',
+                                                                                                                                                            'West Lothian',
+                                                                                                                                                            'West Midlands',
+                                                                                                                                                            'West Sussex',
+                                                                                                                                                            'West Yorkshire',
+                                                                                                                                                            'Wigtownshire',
+                                                                                                                                                            'Wiltshire',
+                                                                                                                                                            'Worcestershire'
+                                                                                                                                                        ] %>
+                                                                                        <option selected disabled>County
+                                                                                        </option>
+                                                                                        <% county.forEach((county) => { %>
+                                                                                        <option>
+                                                                                            <%= county %>
+                                                                                        </option>
+                                                                                        <% }) %>
+                                                                                    </select>
+                                                                                    <input type="text"
+                                                                                        class="form-control"
+                                                                                        name="client[addPost]"
+                                                                                        placeholder="Post Code">
+                                                                                    <small
+                                                                                        class="form-text text-muted">Please
+                                                                                        provide a
+                                                                                        postal address for the
+                                                                                        client</small>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </section>
+                                                                    <h3>Appointments</h3>
+                                                                    <section>
+                                                                        <p class="lead"><strong>Appointments:</strong>
+                                                                        </p>
+                                                                        <hr>
+                                                                        <div id="appointSchedule">
 
-                                                        </div>
-                                                    </section>
-                                                    <h3>Root User</h3>
-                                                    <section>
-                                                        <p class="lead"><strong>Root User:</strong></p>
-                                                        <hr>
-                                                        <div class="form-row">
-                                                            <div class="col-md-4">
-                                                                <div class="form-group">
-                                                                    <label class="form-label" for="cRootUser">Default
-                                                                        User</label>
-                                                                    <input class="form-control mg-bt-20" id="cRootUser"
-                                                                        name="client[rootUser]" type="text">
-                                                                    <button class="btn btn-sm btn-secondary"
-                                                                        id="genUser" type="button">Generate
-                                                                        Username</button>
+                                                                        </div>
+                                                                    </section>
+                                                                    <h3>Root User</h3>
+                                                                    <section>
+                                                                        <p class="lead"><strong>Root User:</strong></p>
+                                                                        <hr>
+                                                                        <div class="form-row">
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label class="form-label"
+                                                                                        for="cRootUser">Default
+                                                                                        User</label>
+                                                                                    <input class="form-control mg-bt-20"
+                                                                                        id="cRootUser"
+                                                                                        name="client[rootUser]"
+                                                                                        type="text">
+                                                                                    <button
+                                                                                        class="btn btn-sm btn-secondary"
+                                                                                        id="genUser"
+                                                                                        type="button">Generate
+                                                                                        Username</button>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label class="form-label"
+                                                                                        for="cRootPass">Password</label>
+                                                                                    <input type="password"
+                                                                                        data-size="32"
+                                                                                        data-character-set="a-z,A-Z,0-9,#"
+                                                                                        id="cRootPass" name="cRootPass"
+                                                                                        class="form-control mg-bt-20">
+                                                                                    <button
+                                                                                        class="btn btn-sm btn-secondary"
+                                                                                        id="genPass"
+                                                                                        type="button">Generate
+                                                                                        Password</button>
+                                                                                    <small class="form-text text-muted"
+                                                                                        id="genPassShow"></small>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <textarea id="cJson" hidden
+                                                                            name="client[basicCal]"></textarea>
+                                                                    </section>
                                                                 </div>
                                                             </div>
-                                                            <div class="-md-4">
-                                                                <div class="form-group">
-                                                                    <label class="form-label"
-                                                                        for="cRootPass">Password</label>
-                                                                    <input type="password" data-size="32"
-                                                                        data-character-set="a-z,A-Z,0-9,#"
-                                                                        id="cRootPass" name="cRootPass"
-                                                                        class="form-control mg-bt-20">
-                                                                    <button class="btn btn-sm btn-secondary"
-                                                                        id="genPass" type="button">Generate
-                                                                        Password</button>
-                                                                    <small class="form-text text-muted"
-                                                                        id="genPassShow"></small>
-                                                                </div>
-                                                            </div>
                                                         </div>
-                                                        <textarea id="cJson" hidden name="client[basicCal]"></textarea>
-                                                    </section>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="col-12 mg-bt-20 page-template">
+                    <div class="admin-help-header">
+                        <h3>
+                            News
+                        </h3>
+                        <p class="lead">
+                            News Editor
+                        </p>
+                    </div>
+                    <div class="help-body">
+                        <div class="help-panel">
+                            <h4>
+                                Add News
+                            </h4>
+                        </div>
+                        <p class="lead info">
+                            Add a new news report for all tenants accross all clients to see.
+                        </p>
+                        <div class="help-content">
+                            <form class="form" action="/admin/news/new" enctype="multipart/form-data" method="POST">
+                                <div class="form-group">
+                                    <label>News Title:</label>
+                                    <input type="text" class="form-control" name="title" required>
+                                </div>
+                                <div class="form-group">
+                                    <label><small>Sub Heading:</small></label>
+                                    <input type="text" class="form-control form-control-sm" name="subHeading">
+                                </div>
+                                <div class="form-group">
+                                    <label>Main Image:</label>
+                                    <input type="file" class="form-control-file" name="headImage" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Article:</label>
+                                    <textarea class="form-control summernote" name="article" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Additional Images:</label>
+                                    <input class="form-control-file" type="file" name="additionalImages" multiple data-show-upload="true">
+                                </div>
+                                <button class="btn btn-info btn-sm" type="submit">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-6 col-sm-12">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="col-12 mg-bt-20 page-template">
+                    <div class="admin-help-header">
+                        <h3>
+                            Help Administration
+                        </h3>
+                        <p class="lead">
+                            Control the help files
+                        </p>
+                    </div>
+                    <div class="help-body">
+                        <div class="help-panel">
+                            <h4>Live Chat</h4>
+                        </div>
+                        <p class="lead info">
+                            The links below will open up the live chat client where you can chat live with people who
+                            require help on
+                            the site using the live chat feature.
+                            (Possible tutorial on using live chat?)
+                        </p>
+                        <div class="help-content">
+                            <div class="mg-20">
+                                <a class="btn btn-info btn-sm" target="_blank"
+                                    href="https://dashboard.tawk.to/#/chat">Open
+                                    Web App</a>
+                                <a class="btn btn-info btn-sm"
+                                    href="https://windows.tawk.to/v2/releases/tawk.to-latest.exe">Download
+                                    Desktop App</a>
+                            </div>
+                        </div>
+                        <div class="col-12 mg-bt-20">
+                            <div class="help-panel">
+                                <h4 id="faq-section" class="mg-bt-20">
+                                    FAQ's
+                                </h4>
+                            </div>
+                            <p class="lead info">
+                                This panel allows you to manipulate the FAQ section of the site.
+                            </p>
+                            <div class="help-content">
+                                <div class="mg-20">
+                                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
+                                        data-target="#newFAQModal">
+                                        New FAQ
+                                    </button>
+                                </div>
+                                <hr>
+                                <table class="table table-responsive" id="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Question</th>
+                                            <th scope="col">Answer</th>
+                                            <th scope="col">Video</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% faq.forEach(faq => { %>
+                                        <tr>
+                                            <th scope="row">
+                                                <button class="btn btn-s btn-link" data-toggle="modal"
+                                                    data-target="#faqAnswer<%= faq.id %>">
+                                                    <%= faq.question %>
+                                                </button>
+                                            </th>
+                                            <td>
+                                                <button class="btn btn-s btn-link" data-toggle="modal"
+                                                    data-target="#faqAnswer<%= faq.id %>">
+                                                    <% if(faq.answer.length > 50){ %>
+                                                    <%= faq.answer.substring(0,50) %>...
+                                                    <% }else{ %>
+                                                    <%= faq.answer %>
+                                                    <% } %>
+                                                </button>
+                                            </td>
+                                            <td align="center"><% if(faq.video){ %> <span class="fas fa-check"></span>
+                                                <% }else{ %>
+                                                <span class="fas fa-times"></span> <% } %></td>
+                                            <td>
+                                                <button class="btn btn-warning btn-sm mg-bt-5" type="button"
+                                                    data-toggle="modal" data-target="#modal<%= faq.id %>edit">
+                                                    Edit
+                                                </button>
+                                                <button class="btn btn-danger btn-sm mg-bt-5" type="button"
+                                                    data-toggle="modal" data-target="#modal<%= faq.id %>">
+                                                    Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="help-panel">
+                                <h4 id="guides-section" class="mg-bt-20">
+                                    Guides
+                                </h4>
+                            </div>
+                            <p class="lead info">
+                                This panel allows you to manipulate the wirtten self help guides. Guides can be either
+                                written in the
+                                browser, or a pre-written guide can be uploaded. A browser written guide will then be
+                                converted into a
+                                PDF that the user can then download and keep for themselves.
+                                Guides may be either enabled or disabled should they need to be edited or become
+                                nolonger
+                                available.
+                            </p>
+                            <div class="help-content">
+                                <div class="mg-20">
+                                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
+                                        data-target="#newGuideModal">
+                                        New Guide
+                                    </button>
+                                </div>
+                                <table class="table table-responsive" id="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Title</th>
+                                            <th scope="col">Description</th>
+                                            <th scope="col">Enabled</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% guide.forEach(guide => { %>
+                                        <tr>
+                                            <th scope="row"><a class="dodd-link"
+                                                    href="/help/guide/pdf/generate/download/<%= guide.id %>"
+                                                    download="/help/guide/pdf/generate/download/<%= guide.id %>"><%= guide.title %></a>
+                                            </th>
+                                            <td>
+                                                <% if(guide.description.length > 50){ %>
+                                                <%= guide.description.substring(0,50) %>...
+                                                <% }else{ %>
+                                                <%= guide.description %>
+                                                <% } %>
+                                            </td>
+                                            <td align="center"><% if(guide.enabled){ %> <span
+                                                    class="fas fa-check"></span>
+                                                <% }else{ %> <span class="fas fa-times"></span> <% } %></td>
+                                            <td>
+                                                <% if(guide.enabled){ %>
+                                                <a class="btn btn-info btn-sm mg-bt-5"
+                                                    href="/admin/guide/written/toggle/<%= guide.id %>">Disable</a>
+                                                <% } else { %>
+                                                <a class="btn btn-info btn-sm mg-bt-5"
+                                                    href="/admin/guide/written/toggle/<%= guide.id %>">Enable</a>
+                                                <% } %>
+                                                <button class="btn btn-warning btn-sm mg-bt-5" type="button"
+                                                    data-toggle="modal" data-target="#modaledit<%= guide.id %>">
+                                                    Edit
+                                                </button>
+                                                <button class="btn btn-danger btn-sm mg-bt-5" type="button"
+                                                    data-toggle="modal" data-target="#modal<%= guide.id %>">
+                                                    Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <% })
+                                                                                                                            <files.forEach(file => { %>
+                                        <tr>
+                                            <th scope="row"><a class="dodd-link"
+                                                    href="/help/guide/download/<%= file.metadata.uuid %>"
+                                                    download="/help/guide/download/<%= file.metadata.uuid %>"><%= file.metadata.title %></a>
+                                            </th>
+                                            <td>
+                                                <% if(file.metadata.description.length > 50){ %>
+                                                <%= file.metadata.description.substring(0,50) %>...
+                                                <% }else{ %>
+                                                <%= file.metadata.description %>
+                                                <% } %>
+                                            </td>
+                                            <td align="center"><% if(file.metadata.enabled){ %> <span
+                                                    class="fas fa-check"></span>
+                                                <% }else{ %> <span class="fas fa-times"></span> <% } %></td>
+                                            <td>
+                                                <% if(file.metadata.enabled){ %>
+                                                <a class="btn btn-info btn-sm mg-bt-5"
+                                                    href="/admin/guide/upload/toggle/<%= file.metadata.uuid %>">Disable</a>
+                                                <% } else { %>
+                                                <a class="btn btn-info btn-sm mg-bt-5"
+                                                    href="/admin/guide/upload/toggle/<%= file.metadata.uuid %>">Enable</a>
+                                                <% } %>
+                                                <button class="btn btn-warning btn-sm mg-bt-5" type="button"
+                                                    data-toggle="modal"
+                                                    data-target="#modal<%= file.filename.split('.').join("") %>">
+                                                    Edit
+                                                </button>
+                                                <button class="btn btn-danger btn-sm mg-bt-5" type="button"
+                                                    data-toggle="modal" data-target="#modal<%= file._id %>">
+                                                    Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
-            </form>
-            <div class="help-panel">
-                <h4>Live Chat</h4>
-            </div>
-            <div class="help-content">
-                <div class="mg-20">
-                    <a class="btn btn-info btn-sm" target="_blank" href="https://dashboard.tawk.to/#/chat">Open Web App</a>
-                    <a class="btn btn-info btn-sm" href="https://windows.tawk.to/v2/releases/tawk.to-latest.exe">Download Desktop App</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 mg-bt-20 page-template">
-        <div class="admin-help-header">
-            <h3>
-                Help Administration
-            </h3>
-            <p class="lead">
-                Control the help files
-            </p>
-        </div>
-        <div class="col-12 mg-bt-20">
-            <div class="help-panel">
-                <h4 id="faq-section" class="mg-bt-20">
-                    FAQ's
-                </h4>
-            </div>
-            <div class="help-content">
-                <div class="mg-20">
-                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#newFAQModal">
-                        New FAQ
-                    </button>
-                </div>
-                <hr>
-                <table class="table table-responsive" id="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Question</th>
-                            <th scope="col">Answer</th>
-                            <th scope="col">Video</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% faq.forEach(faq => { %>
-                        <tr>
-                            <th scope="row">
-                                <button class="btn btn-s btn-link" data-toggle="modal"
-                                    data-target="#faqAnswer<%= faq.id %>">
-                                    <%= faq.question %>
-                                </button>
-                            </th>
-                            <td>
-                                <button class="btn btn-s btn-link" data-toggle="modal"
-                                    data-target="#faqAnswer<%= faq.id %>">
-                                    <% if(faq.answer.length > 50){ %>
-                                    <%= faq.answer.substring(0,50) %>...
-                                    <% }else{ %>
-                                    <%= faq.answer %>
-                                    <% } %>
-                                </button>
-                            </td>
-                            <td align="center"><% if(faq.video){ %> <span class="fas fa-check"></span> <% }else{ %>
-                                <span class="fas fa-times"></span> <% } %></td>
-                            <td>
-                                <button class="btn btn-warning btn-sm mg-bt-5" type="button" data-toggle="modal"
-                                    data-target="#modal<%= faq.id %>edit">
-                                    Edit
-                                </button>
-                                <button class="btn btn-danger btn-sm mg-bt-5" type="button" data-toggle="modal"
-                                    data-target="#modal<%= faq.id %>">
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
-                        <% }) %>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="help-panel">
-                <h4 id="guides-section" class="mg-bt-20">
-                    Guides
-                </h4>
-            </div>
-            <div class="help-content">
-                <div class="mg-20">
-                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#newGuideModal">
-                        New Guide
-                    </button>
-                </div>
-                <table class="table table-responsive" id="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Title</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Enabled</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% guide.forEach(guide => { %>
-                        <tr>
-                            <th scope="row"><a class="dodd-link"
-                                    href="/help/guide/pdf/generate/download/<%= guide.id %>"
-                                    download="/help/guide/pdf/generate/download/<%= guide.id %>"><%= guide.title %></a>
-                            </th>
-                            <td>
-                                <% if(guide.description.length > 50){ %>
-                                <%= guide.description.substring(0,50) %>...
-                                <% }else{ %>
-                                <%= guide.description %>
-                                <% } %>
-                            </td>
-                            <td align="center"><% if(guide.enabled){ %> <span class="fas fa-check"></span>
-                                <% }else{ %> <span class="fas fa-times"></span> <% } %></td>
-                            <td>
-                                <% if(guide.enabled){ %>
-                                <a class="btn btn-info btn-sm mg-bt-5"
-                                    href="/admin/guide/written/toggle/<%= guide.id %>">Disable</a>
-                                <% } else { %>
-                                <a class="btn btn-info btn-sm mg-bt-5"
-                                    href="/admin/guide/written/toggle/<%= guide.id %>">Enable</a>
-                                <% } %>
-                                <button class="btn btn-warning btn-sm mg-bt-5" type="button" data-toggle="modal"
-                                    data-target="#modaledit<%= guide.id %>">
-                                    Edit
-                                </button>
-                                <button class="btn btn-danger btn-sm mg-bt-5" type="button" data-toggle="modal"
-                                    data-target="#modal<%= guide.id %>">
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
-                        <% })
-                                    <files.forEach(file => { %>
-                        <tr>
-                            <th scope="row"><a class="dodd-link" href="/help/guide/download/<%= file.metadata.uuid %>"
-                                    download="/help/guide/download/<%= file.metadata.uuid %>"><%= file.metadata.title %></a>
-                            </th>
-                            <td>
-                                <% if(file.metadata.description.length > 50){ %>
-                                <%= file.metadata.description.substring(0,50) %>...
-                                <% }else{ %>
-                                <%= file.metadata.description %>
-                                <% } %>
-                            </td>
-                            <td align="center"><% if(file.metadata.enabled){ %> <span class="fas fa-check"></span>
-                                <% }else{ %> <span class="fas fa-times"></span> <% } %></td>
-                            <td>
-                                <% if(file.metadata.enabled){ %>
-                                <a class="btn btn-info btn-sm mg-bt-5"
-                                    href="/admin/guide/upload/toggle/<%= file.metadata.uuid %>">Disable</a>
-                                <% } else { %>
-                                <a class="btn btn-info btn-sm mg-bt-5"
-                                    href="/admin/guide/upload/toggle/<%= file.metadata.uuid %>">Enable</a>
-                                <% } %>
-                                <button class="btn btn-warning btn-sm mg-bt-5" type="button" data-toggle="modal"
-                                    data-target="#modal<%= file.filename.split('.').join("") %>">
-                                    Edit
-                                </button>
-                                <button class="btn btn-danger btn-sm mg-bt-5" type="button" data-toggle="modal"
-                                    data-target="#modal<%= file._id %>">
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
-                        <% }) %>
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
 </div>
+
+
+
+
+
+
 <!-- FAQ Edit -->
 <% faq.forEach(faq => { %>
 <div class="modal fade" id="modal<%= faq.id %>edit" tabindex="-1" role="dialog"

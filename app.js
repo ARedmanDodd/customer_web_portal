@@ -93,7 +93,8 @@ app.use((req, res, next) => {
 let baseRoute = require('./routes/base'),
     adminRoute = require('./routes/admin'),
     clientRoute = require('./routes/client'),
-    helpRoutes = require('./routes/help');
+    helpRoutes = require('./routes/help'),
+    newsRoutes = require('./routes/news'),
     contractRoutes = require('./routes/contract');
 
 //Routing
@@ -102,6 +103,7 @@ app.use('/admin', adminRoute);
 app.use('/help', helpRoutes);
 app.use('/client', clientRoute);
 app.use('/contract', contractRoutes);
+app.use('/news', newsRoutes);
 app.get('*', (req, res) => {
     async () => {
         try {

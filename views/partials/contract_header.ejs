@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="/css/jquery.steps.css" type="text/css">
     <link rel="stylesheet" href="/css/jquery.schedule.css" type="text/css">
     <link rel="stylesheet" href="/css/stylesheet.css" type="text/css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 
 <body class="h-100 dodd-contract">
@@ -45,21 +46,15 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false">
-                                    Client Home
+                                    Admin
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="accountrDropdown">
                                     <a class="dropdown-item" href="#">Select Client</a>
+                                    <a class="dropdown-item" href="/admin">Site Admin</a>
                                 </div>
                             </li>
                         <% }
-                    }
-                    if(user.isSuperUser){ %>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin">
-                            Site Admin
-                        </a>
-                    </li>
-                    <% } %>
+                    } %>
                     <li class="nav-item">
                         <a class="nav-link" href="/contract">Contract</a>
                     </li>

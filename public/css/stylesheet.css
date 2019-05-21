@@ -11,6 +11,12 @@ body{
     /* overflow: hidden !important; */
 }
 
+body.no-bg{
+    background-image: none;
+    padding: 30px;
+    padding-top: 80px;
+}
+
 .navbar {
     height: 60px;
     width: 100%;
@@ -78,6 +84,13 @@ nav img.dodd-logo{
     -webkit-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.75);
     box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.75);
+}
+
+.help-body{
+    max-height: 500px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border: 3px solid #2EB08C;
 }
 
 .col-12{
@@ -405,4 +418,45 @@ a.cli-card-link{
     color: inherit;
     background-color: transparent;
     text-decoration: none
+}
+
+#nav-news{
+    margin-top: 10px
+}
+
+li .media-body:hover{
+    background-color: #272E38;
+    color: #fff;
+}
+
+.dodd-news:hover{
+    cursor: default
+}
+
+.accordion .card .card-header{
+    background-color: #272E38;
+    color: #fff;
+    border-bottom: 5px solid #2EB08C;
+}
+
+.accordion .card .card-body{
+    border: 3px solid #2EB08C;
+}
+
+p.lead.info{
+    margin: 20px;
+}
+
+p.news-header{
+    margin-bottom: 0px;
+}
+
+li.media{
+    padding-bottom: 5px;
+    border-bottom: #272E38 1px solid;
+}
+
+li.media img{
+    width: 100%;
+    max-width: 64px;
 }

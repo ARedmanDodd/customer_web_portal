@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="http://localhost/fontawesome/css/all.css">
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa|Fjalla+One|Righteous&display=swap" rel="stylesheet">  
+
+</head>
+
+<body>
+    <div class="container" style=" font-family: 'Comfortaa', cursive; text-align: center;">
+        <!-- Dodd Group Logo -->
+        <div class="row"> 
+            <div class="col-12" style="margin-bottom: 5px; margin-top: 5px; text-align: left;">
+                <img src="/assets/images/logo.svg" alt="Dodd Group Logo" width="15%;">
+            </div>
+        </div>
+        <!-- Envelope -->
+        <div class="row" style="background-color: #729cff; padding: 10px; text-align:center; border-bottom: 5px solid #fff">
+            <div class="col-12">
+                <i style="font-size: 20em; color:#fff;" class="fas fa-envelope-open-text"></i>
+                <h1 style="color: #fff; margin-top: 10px;" class="display-4">You have new mail.</h1>
+            </div>
+        </div>
+        <!-- Mail -->
+        <div class="row justify-content-md-center" style="margin-top: 5px; border-top: 10px solid #2eb08c; border-bottom: 10px solid #2eb08c; padding: 30px;">
+            <div class="col-8" style="text-align: center; font-family: 'Comfortaa', cursive;">
+                <p style="text-align: left">
+                    
+                </p>
+                <hr>
+                <div class="form-group row">
+                    <label for="name" class="col-2 col-form-label">Name:</label>
+                    <div class="col-10">
+                        <p class="form-control" style="text-align: left"><a href="mailto:<%= body.name %>"></a><%= body.name %></p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="from" class="col-2 col-form-label">Email:</label>
+                    <div class="col-10">
+                        <p class="form-control" style="text-align: left"><a href="mailto:<%= body.email %>"><%= body.email %></a></p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="subject" class="col-2 col-form-label">Subject:</label>
+                    <div class="col-10">
+                        <p style="text-align: left" class="form-control"><%= body.subject %></p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="message" class="col-2 col-form-label">Message:</label>
+                    <div class="col-10">
+                        <p style="text-align: left" class="form-control"><%= body.message %></p>
+                    </div>
+                </div>
+                <a href="mailto:<%= body.email %>?subjectS<%= body.subject %>&body=<<< <%= body.message %> >>>"><button style="background-color: #729cff; border: #729cff 1px solid" class="btn btn-info btn-sm">Click here to reply</button></a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

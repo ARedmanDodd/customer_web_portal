@@ -14,33 +14,58 @@
         </div>
         <hr class="my-3">
         <div class="row">
-            <div class="col-4 temp-bg">
-                <h4>News</h4>
-                <hr class="my-3">
+            <div class="col-4">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link dodd-news active" id="nav-news-tab" data-toggle="tab" href="#nav-news" role="tab"
+                            aria-controls="nav-news" aria-selected="false">News</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="nav-tabContent-news">
+                    <div class="tab-pane fade" id="nav-active" role="tabpanel" aria-labelledby="nav-active-tab">
+                    </div>
+                    <div class="tab-pane fade show active" id="nav-news" role="tabpanel" aria-labelledby="nav-news-tab">
+                        <!-- DODD NEWS -->
+                        <ul class="list-unstyled">
+                            <% news.forEach(news => { %>
+                                <li class="media">
+                                    <img src="/img/news/<%= news.mainImage %>" class="mr-3" alt="<%= news.mainImg %>">
+                                    <div class="media-body">
+                                        <p class="lead news-header mt-0"><%= news.title %></p>
+                                        <small class="text-muted"><%= news.subHeading %></small><br>
+                                        <small class="text-muted"><%= news.date %></small><br>
+                                        <a class="dodd-link" href="/news/<%= news.id %>"><small>Read More...</small></a>
+                                    </div>
+                                </li>
+                            <% }) %>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <div class="col-8 temp-bg">
-                    <ul class="nav nav-tabs" id="nav-active-tab" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" id="nav-report-tab" data-toggle="tab" href="#nav-report"
-                                role="tab" aria-controls="nav-report" aria-selected="false">Report a Repair</a>
-                        </li> 
-                        <li class="nav-item">
-                            <a class="nav-link" id="nav-active-tab" data-toggle="tab" href="#nav-active"
-                                role="tab" aria-controls="nav-home" aria-selected="true">Active Jobs</a>
-                        </li>   
-                        <li class="nav-item">
-                            <a class="nav-link" id="nav-history-tab" data-toggle="tab" href="#nav-history"
-                                role="tab" aria-controls="nav-map" aria-selected="false">History</a>
-                        </li>    
-                        <li class="nav-item">
-                            <a class="nav-link" id="nav-certificates-tab" data-toggle="tab" href="#nav-certificates"
-                                role="tab" aria-controls="nav-account" aria-selected="false">Certificates</a>
-                        </li>    
-                    </ul>
+            <div class="col-8">
+                <ul class="nav nav-tabs" id="nav-active-tab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="nav-report-tab" data-toggle="tab" href="#nav-report" role="tab"
+                            aria-controls="nav-report" aria-selected="false">Report a Repair</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="nav-active-tab" data-toggle="tab" href="#nav-active" role="tab"
+                            aria-controls="nav-home" aria-selected="true">Active Jobs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="nav-history-tab" data-toggle="tab" href="#nav-history" role="tab"
+                            aria-controls="nav-map" aria-selected="false">History</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="nav-certificates-tab" data-toggle="tab" href="#nav-certificates"
+                            role="tab" aria-controls="nav-account" aria-selected="false">Certificates</a>
+                    </li>
+                </ul>
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade" id="nav-active" role="tabpanel" aria-labelledby="nav-active-tab">
                     </div>
-                    <div class="tab-pane fade show active" id="nav-report" role="tabpanel" aria-labelledby="nav-report-tab">
+                    <div class="tab-pane fade show active" id="nav-report" role="tabpanel"
+                        aria-labelledby="nav-report-tab">
                         <form class="form" id="new-report-wizard-form" action="#" method="POST">
                             <div id="new-report-wizard">
                                 <h3>The Problem</h3>
@@ -66,7 +91,10 @@
                                     Confirmation
                                 </h3>
                                 <section>
-                                    <small class="form-text text-muted">By checking the box below you are agreeing that you will be available at the time provided upon engineer confirmation. Should you not be available, you agree to contact us at least 48 hours before the scheduled visit to rearrange.</small>
+                                    <small class="form-text text-muted">By checking the box below you are agreeing that
+                                        you will be available at the time provided upon engineer confirmation. Should
+                                        you not be available, you agree to contact us at least 48 hours before the
+                                        scheduled visit to rearrange.</small>
                                     <div class="form-group">
                                         <label class="form-lable" for="confirmation">I accept:</label>
                                         <input class="form-control-check" type="checkbox" name="confirmation" required>
@@ -77,7 +105,8 @@
                                 </h3>
                                 <section>
                                     <small class="form-text text-muted">
-                                        If you are confident that all of the information that you have provided is correct, please click the finish button below.
+                                        If you are confident that all of the information that you have provided is
+                                        correct, please click the finish button below.
                                     </small>
                                 </section>
                             </div>
@@ -95,21 +124,23 @@
                                 jobNo = record.SUB_JOB_NUMBER;
                             };
                         %>
-                            <a href="/contract/hist/<%= record.JOB_NUMBER %>/<%= jobNo %>" class="cli-card-link">
-                                <div class="card">
-                                    <div class="row no-gutters">
-                                        <div class=" col-md-12">
-                                            <div class="card-body cli-his">
-                                                <h6 class="card-title"><%= record.JOB_DESCRIPTION %></h6>
-                                                <p class="card-text text-muted"><small><%= record.ACTUAL_START_DATE %></small></p>
-                                            </div>
+                        <a href="/contract/hist/<%= record.JOB_NUMBER %>/<%= jobNo %>" class="cli-card-link">
+                            <div class="card">
+                                <div class="row no-gutters">
+                                    <div class=" col-md-12">
+                                        <div class="card-body cli-his">
+                                            <h6 class="card-title"><%= record.JOB_DESCRIPTION %></h6>
+                                            <p class="card-text text-muted">
+                                                <small><%= record.ACTUAL_START_DATE %></small></p>
                                         </div>
                                     </div>
                                 </div>
-                            </a>
+                            </div>
+                        </a>
                         <% }) %>
                     </div>
-                    <div class="tab-pane fade" id="nav-certificates" role="tabpanel" aria-labelledby="nav-certificates-tab">...
+                    <div class="tab-pane fade" id="nav-certificates" role="tabpanel"
+                        aria-labelledby="nav-certificates-tab">...
                     </div>
                 </div>
             </div>
@@ -117,12 +148,12 @@
     </div>
 </div>
 <script>
-    if(navigator.geolocation){
+    if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(displayLocationInfo);
-        function displayLocationInfo(position){
-            return {lng: position.coords.longitude, lat: position.coords.latitude}
+        function displayLocationInfo(position) {
+            return { lng: position.coords.longitude, lat: position.coords.latitude }
         }
-    }else{
+    } else {
         alert(`Your browser does not support geo locating.`)
     }
 </script>
@@ -148,44 +179,44 @@
         data.data.forEach(data => {
             locations.push({
                 title: data.name,
-                position: {lat: data.position.lat, lng: data.position.lon},
+                position: { lat: data.position.lat, lng: data.position.lon },
                 type: 'van'
             });
         });
         addMarkers();
         setMarker();
     });
-    function addMarkers(){
-        for( i=0;i<locations.length;i++){
+    function addMarkers() {
+        for (i = 0; i < locations.length; i++) {
             let content = `<div id=""><h5>${locations[i].title}</h5></div>`
             let infoWindow = new google.maps.InfoWindow({
                 content: content
             });
-            if(markers.length < locations.length){
+            if (markers.length < locations.length) {
                 let marker = new google.maps.Marker({
-                position: locations[i].position,
-                title: locations[i].title,
-                map: map,
-                icon: icon
-            });
-            marker.addListener('click', () => {
-                infoWindow.open(map, marker);
-                map.setCenter(marker.getPosition())
-            });
-            markers.push(marker);
-            }else{
-                markers[i].setPosition(new google.maps.LatLng({lat: locations[i].position.lat, lng: locations[i].position.lng}));
+                    position: locations[i].position,
+                    title: locations[i].title,
+                    map: map,
+                    icon: icon
+                });
+                marker.addListener('click', () => {
+                    infoWindow.open(map, marker);
+                    map.setCenter(marker.getPosition())
+                });
+                markers.push(marker);
+            } else {
+                markers[i].setPosition(new google.maps.LatLng({ lat: locations[i].position.lat, lng: locations[i].position.lng }));
             }
         }
     }
-    function setMarker(){
-        for(i=0;i<markers.length;i++){
+    function setMarker() {
+        for (i = 0; i < markers.length; i++) {
             markers[i].setMap(map);
         }
     }
-    function clearMap(){
-        if(markers.length < 1) return;
-        for(i=0;i<markers.length;i++){
+    function clearMap() {
+        if (markers.length < 1) return;
+        for (i = 0; i < markers.length; i++) {
             markers[i].setMap(null);
         }
     }
@@ -194,14 +225,14 @@
 
 <!--Start of Tawk.to Script-->
 <script type="text/javascript">
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    (function(){
-    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-    s1.async=true;
-    s1.src='https://embed.tawk.to/5cdbcc052846b90c57ae902e/default';
-    s1.charset='UTF-8';
-    s1.setAttribute('crossorigin','*');
-    s0.parentNode.insertBefore(s1,s0);
+    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+    (function () {
+        var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+        s1.async = true;
+        s1.src = 'https://embed.tawk.to/5cdbcc052846b90c57ae902e/default';
+        s1.charset = 'UTF-8';
+        s1.setAttribute('crossorigin', '*');
+        s0.parentNode.insertBefore(s1, s0);
     })();
 </script>
 <!--End of Tawk.to Script-->

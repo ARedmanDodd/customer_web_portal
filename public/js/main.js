@@ -67,7 +67,7 @@ $(document).ready(() => {
         height: 100,
         toolbar: [
             // [groupName, [list of button]]
-            ['style', ['fontname', 'bold', 'italic', 'underline', 'clear']],
+            ['style', ['bold', 'italic', 'underline', 'clear']],
             ['font', ['strikethrough', 'superscript', 'subscript']],
             ['fontsize', ['fontsize']],
             ['color', ['color']],
@@ -229,3 +229,14 @@ jQuery(document).ready(function ($) {
 $('#live-chat-button').click(function () {
     window.open('https://tawk.to/chat/5cdbcc052846b90c57ae902e/default', 'Live Chat', 'directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=400,height=350');
 });
+
+$(document).ready(() => {
+    $('#contactForm').click(() => {
+        $('#confirmKey').val(grecaptcha.getResponse());
+        if($('#confirmKey').val().length < 1){
+            return;
+        }else{
+            $('#sub').trigger('click');
+        }
+    })
+})

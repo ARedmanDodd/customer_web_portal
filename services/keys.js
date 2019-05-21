@@ -31,6 +31,16 @@ const keys = {
         from: 'DoddGroup',
         apiKey: 'BC15FD87-A102-360D-A187-E83405B9FF0C',
         username: 'doddwebapi'
+    },
+    contactForm:{
+        address: 'dodd.net@doddgroup.com',
+        password: 'Volu4798',
+        host: 'smtp.office365.com',
+        port: 587
+    },
+    recapture:{
+        site: '6LdneaQUAAAAACNZmMm3Xfe1reKuwzLRBQgQt45h',
+        secret: '6LdneaQUAAAAADo7bhdcxJs0rGFAc7AUIeE6i2V2'
     }
 }
 

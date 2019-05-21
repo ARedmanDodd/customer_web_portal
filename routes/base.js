@@ -145,8 +145,9 @@ router.post('/login', passport.authenticate('local', {
 // TEST PAGE
 
 router.get('/test', (req, res) => {
-    let data = {};
-    return res.render('base/test', { data: data });
+    // let data = {};
+    // return res.render('base/test', { data: data });
+    return res.render('emails/template', {body: req.body});
 });
 
 router.get('/text', (req, res) => {

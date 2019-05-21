@@ -3,6 +3,7 @@ const express = require('express'),
     keys = require('../services/keys'),
     sql = require('mssql'),
     sqlRequest = new sql.Request(),
+    News = require('../db/models/newsSchema'),
     User = require('../db/models/userSchema'),
     Client = require('../db/models/clientSchema'),
     querystring = require('querystring'),
@@ -140,7 +141,14 @@ router.get('/', isLoggedIn, (req, res) => {
         for (i = 0; i < account.length; i++) {
             account[i].ACTUAL_START_DATE = moment(account[i].ACTUAL_START_DATE).format('Do MMM YYYY');
         }
-        return res.render('contract/index', {report: account});
+        News.find({}).sort({date: -1}).limit(10).exec((err, news) => {
+            if(err){
+                if (keys.debug) console.log(err);
+                req.flash('fail', keys.messages.dbError);
+                return res.redirect(`${req.protocol}://${req.get('host')}${req.originalUrl}`);
+            }
+            return res.render('contract/index', {report: account, news: news});
+        });
     });
 });
 

@@ -6,6 +6,10 @@ const selfHelp = require('../db/models/selfHelp');
 const FAQ = require('../db/models/faqSchema');
 const Grid = require('gridfs-stream');
 const mongoose = require('mongoose');
+const request = require('request');
+const ejs = require('ejs');
+const querystring = require('querystring');
+const nodemailer = require('nodemailer');
 
 function error(req, res) {
     console.log(err);
@@ -21,6 +25,18 @@ let gfs;
 conn.once('open', () => {
     gfs = Grid(conn.db, mongoose.mongo);
     gfs.collection('guideUploads');
+});
+
+let transporter = nodemailer.createTransport({
+    host: keys.contactForm.host,
+    port: keys.contactForm.port,
+    auth: {
+        user: keys.contactForm.address,
+        pass: keys.contactForm.password
+    },
+    tls: {
+        rejectUnauthorized: false,
+    }
 });
 
 // GET Requests
@@ -71,5 +87,44 @@ router.use('/guide/pdf/generate/download/:id', (req, res) => {
 
 // POST Requests
 
+router.post('/contact', (req, res) => {
+    ejs.renderFile('./views/emails/template.ejs', {body: req.body}, (err, page) => {
+        if(err){
+            if (keys.debug) console.log(err);
+            req.flash('fail', keys.messages.dbError);
+            return res.redirect(`/`);
+        }
+        let form = {
+            secret: keys.recapture.secret,
+            response: req.body.key
+        };
+        var formData = querystring.stringify(form);
+        request({
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            uri: 'https://www.google.com/recaptcha/api/siteverify',
+            body: formData,
+            method: 'POST'
+        }, (err, response, body) => {
+            if (err) {
+                console.log(err);
+            }
+            transporter.sendMail({
+                from: `Online contact form <${keys.contactForm.address}>`,
+                to: 'ashton.redman@doddgroup.com',
+                subject: `PROPERTY CARE ONLINE: ${req.body.subject}`,
+                html: page
+            }, (err, email) => {
+                if(err){
+                    if (keys.debug) console.log(err);
+                    req.flash('fail', keys.messages.dbError);
+                    return res.redirect(`/`);
+                }
+                return res.redirect('/');
+            });
+        });
+    });
+});
 
 module.exports= router;
